@@ -17,32 +17,36 @@
         "name": "shoes",
         "stock": 10,
         "price": 399.99,
-        "shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-        "description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
+        "shortDesc": "Shoes for running.",
+        "description": "Shoes for running.",
+        "image": "http://localhost:3002/static/shoes.png"
       },
       {
         "id": "3dc7fiyzlfmkfqseqam",
-        "name": "bags",
+        "name": "bag",
         "stock": 20,
         "price": 299.99,
-        "shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-        "description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
+        "shortDesc": "Bag.",
+        "description": "Bag.",
+        "image": "http://localhost:3002/static/bag.png"
       },
       {
         "id": "aoe8wvdxvrkfqsew67",
-        "name": "shirts",
+        "name": "shirt",
         "stock": 15,
         "price": 149.99,
-        "shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-        "description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
+        "shortDesc": "Shirt.",
+        "description": "Shirt.",
+        "image": "http://localhost:3002/static/shirt.png"
       },
       {
         "id": "bmfrurdkswtkfqsf15j",
         "name": "shorts",
         "stock": 5,
         "price": 109.99,
-        "shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-        "description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
+        "shortDesc": "Green Shorts.",
+        "description": "Green Shorts.",
+        "image": "http://localhost:3002/static/shorts.png"
       }
     ]
   }

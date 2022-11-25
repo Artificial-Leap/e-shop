@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartItem = props => {
+const CartItem = (props) => {
   const { cartItem, cartKey } = props;
 
   const { product, amount } = cartItem;
@@ -10,10 +10,7 @@ const CartItem = props => {
         <div className="media">
           <div className="media-left">
             <figure className="image is-64x64">
-              <img
-                src="https://bulma.io/images/placeholders/128x128.png"
-                alt={product.shortDesc}
-              />
+              <img src={product.image} alt={product.shortDesc} />
             </figure>
           </div>
           <div className="media-content">
