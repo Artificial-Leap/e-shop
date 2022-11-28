@@ -1,8 +1,11 @@
 import express, { json } from "express";
+import database from "./database.js";
+
+new database();
 
 const app = express();
 app.use(json({ limit: "50mb" }));
-app.use(express.static('files'))
+app.use(express.static("files"));
 app.use("/static", express.static("public"));
 
 const port = 3002;

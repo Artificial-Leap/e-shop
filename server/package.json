@@ -5,12 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "start_fileserver": "node file_server.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "serve-static": "^1.15.0"
+    "serve-static": "^1.15.0",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.2"
   }
 }
