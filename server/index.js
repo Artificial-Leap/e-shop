@@ -56,6 +56,12 @@ app.post("/checkout", async (req, res) => {
   emailer.instance.sendEmail("our email", "Order Received", "");
 });
 
+app.post("/contact", async (req, res) => {
+  const { email, name, orderId, query } = req.body;
+
+  res.send("ok");
+});
+
 app.listen(port, () => {
   console.log(`File server listening on port ${port}`);
 });

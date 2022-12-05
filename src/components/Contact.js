@@ -5,6 +5,8 @@ import PaypalPayment from "./PaypalPayment";
 import CryptoPayment from "./CryptoPayment";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
+import { SERVER_URL } from "../constants";
 
 export default function Contact(props) {
   const [email, setEmail] = useState("");
@@ -17,12 +19,24 @@ export default function Contact(props) {
     setError("");
   }, []);
 
-  const contact = () => {
+  const contact = async () => {
     setError("");
 
     if (!email || !email || !query) {
       setError("Please fill all the fields");
       return;
+    }
+
+    const body = {
+      email,
+      name,
+      orderId: orderId ? orderId : "N/A",
+      query,
+    };
+
+    const resp = await axios.post(SERVER_URL + "/contact", body);
+    if (resp.data === "ok") {
+      setError("Your query has been submitted successfully");
     }
 
     setEmail("");
