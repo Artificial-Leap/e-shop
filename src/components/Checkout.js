@@ -124,7 +124,7 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  {getLangText(this.props.context.lang, "shipping_address")}
+                  {getLangText(this.props.context.lang, "shipping_adress")}
                 </label>
                 <input
                   className="input"
@@ -162,7 +162,7 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  {getLangText(this.props.context.lang, "shipping_method")}
+                  {getLangText(this.props.context.lang, "shipping method")}
                 </label>
                 <select
                   className="input"
@@ -177,7 +177,7 @@ class Checkout extends Component {
                   </option>
                 </select>
                 <label className="label">
-                  {getLangText(this.props.context.lang, "shippment_amount")}:{" "}
+                  {getLangText(this.props.context.lang, "shipment_amount")}:{" "}
                   {this.getShippmentAmount()}
                 </label>
               </div>
@@ -200,7 +200,7 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  {getLangText(this.props.context.lang, "Ethereum_address")}
+                  {getLangText(this.props.context.lang, "Ethereum_adress")}
                 </label>
                 <input
                   className="input"
@@ -211,7 +211,7 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  {getLangText(this.props.context.lang, "invoice")}
+                  {getLangText(this.props.context.lang, "Invoice")}
                 </label>
                 <select
                   className="input"
@@ -276,7 +276,7 @@ class Checkout extends Component {
                 </div>
               ) : null}
               <div className="field">
-                <label className="label">Payement Method</label>
+                <label className="label">{getLangText(this.props.context.lang, "payment_method")}</label>
                 <select
                   className="input"
                   name="payment"
@@ -288,10 +288,10 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  Products' Amount: {this.getAmount()}
+                {getLangText(this.props.context.lang, "Product's Amount")}: {this.getAmount()}
                 </label>
                 <label className="label">
-                  Total Amount: {this.getTotalAmount()}
+                {getLangText(this.props.context.lang, "Total Amount")}: {this.getTotalAmount()}
                 </label>
               </div>
               {this.state.payment === "crypto" ? (
@@ -304,7 +304,7 @@ class Checkout extends Component {
               )}
               <div className="field is-clearfix">
                 <button className="button is-primary is-outlined is-pulled-right">
-                  Checkout
+                {getLangText(this.props.context.lang, "checkout")}
                 </button>
               </div>
             </div>
