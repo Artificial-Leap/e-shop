@@ -11,6 +11,7 @@ import { SERVER_URL } from "./constants";
 import Context from "./Context";
 import Register from "./components/Register";
 import Checkout from "./components/Checkout";
+import Contact from "./components/Contact";
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -215,6 +216,9 @@ export default class App extends Component {
                 <Link to="/products" className="navbar-item">
                   Products
                 </Link>
+                <Link to="/contact" className="navbar-item">
+                  Contact
+                </Link>
                 {this.state.user && this.state.user.accessLevel < 1 && (
                   <Link to="/add-product" className="navbar-item">
                     Add Product
@@ -258,6 +262,7 @@ export default class App extends Component {
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/products" element={<ProductList />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </div>
         </Router>
