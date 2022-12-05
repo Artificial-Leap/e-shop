@@ -6,15 +6,19 @@ import Cart from "./components/Cart";
 import Login from "./components/Login";
 import ProductList from "./components/ProductList";
 import axios from "axios";
-import { SERVER_URL } from "./constants";
+import { SERVER_URL, TRACKING_ID } from "./constants";
 
 import Context from "./Context";
 import Register from "./components/Register";
 import Checkout from "./components/Checkout";
 import Contact from "./components/Contact";
+
+import ReactGA from "react-ga";
+
 export default class App extends Component {
   constructor(props) {
     super(props);
+    ReactGA.initialize(TRACKING_ID);
     this.state = {
       user: null,
       cart: {},
@@ -22,6 +26,7 @@ export default class App extends Component {
       lang: "gr",
     };
     this.routerRef = React.createRef();
+    this.useAnalyticsEventTracker("main page", "pageview", "pageview");
   }
 
   async componentDidMount() {
@@ -34,6 +39,13 @@ export default class App extends Component {
 
     this.setState({ user, products: products.data, cart });
   }
+
+  useAnalyticsEventTracker = (category, action, label) => {
+    const eventTracker = (action = action, label = label) => {
+      ReactGA.event({ category, action, label });
+    };
+    return eventTracker;
+  };
 
   increaseItem = (cartItemId) => {
     let cart = this.state.cart;
@@ -165,6 +177,7 @@ export default class App extends Component {
     this.setState({ lang });
     //highlight the current language button
     console.log("SELECTED:", lang);
+    this.useAnalyticsEventTracker("change language", "change language", lang);
   };
 
   render() {
@@ -181,6 +194,7 @@ export default class App extends Component {
           checkout: this.checkout,
           increaseItem: this.increaseItem,
           decreaseItem: this.decreaseItem,
+          useAnalyticsEventTracker: this.useAnalyticsEventTracker,
         }}
       >
         <Router innerRef={this.routerRef}>
@@ -262,7 +276,14 @@ export default class App extends Component {
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/products" element={<ProductList />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route
+                path="/contact"
+                element={
+                  <Contact
+                    useAnalyticsEventTracker={this.useAnalyticsEventTracker}
+                  />
+                }
+              />
             </Routes>
           </div>
         </Router>

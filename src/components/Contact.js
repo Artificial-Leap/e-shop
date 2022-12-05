@@ -9,6 +9,10 @@ import axios from "axios";
 import { SERVER_URL } from "../constants";
 
 export default function Contact(props) {
+  useEffect(() => {
+    props.useAnalyticsEventTracker("main page", "pageview", "pageview");
+  }, []);
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [orderId, setOrderId] = useState("");

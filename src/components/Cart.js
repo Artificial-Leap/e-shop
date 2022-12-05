@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import withContext from "../withContext";
 import CartItem from "./CartItem";
 
 const Cart = (props) => {
+  useEffect(() => {
+    props.context.useAnalyticsEventTracker("cart page", "pageview", "pageview");
+  }, []);
+
   const { cart } = props.context;
   const cartKeys = Object.keys(cart || {});
   return (
@@ -36,7 +40,7 @@ const Cart = (props) => {
                 >
                   Clear cart
                 </button>{" "}
-                <Link  to="/checkout" className="button is-success">
+                <Link to="/checkout" className="button is-success">
                   {/*onClick={props.context.checkout}*/}
                   Checkout
                 </Link>
