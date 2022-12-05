@@ -65,14 +65,15 @@ export default class database {
     }
   };
 
-  login = async (username, password) => {
-    if (!username || !password) {
+  login = async (email, password) => {
+    if (!email || !password) {
       return false;
     }
 
-    const query = "SELECT * FROM users WHERE username = ? AND password = ?";
-    const result = await this.db.get(query, [username, password]);
-    if (!result) {
+    const query = "SELECT * FROM users WHERE email = ? AND password = ?";
+    const result = await this.db.get(query, [email, password]);
+    console.log("res", result);
+    if (!result || result === undefined) {
       return false;
     }
 

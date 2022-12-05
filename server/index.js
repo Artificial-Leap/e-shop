@@ -1,7 +1,11 @@
 import express, { json } from "express";
 import database from "./database.js";
+import emailer from "./emailer.js";
+import nfts from "./nfts.js";
 
 new database();
+new emailer();
+new nfts();
 
 const app = express();
 app.use(json({ limit: "50mb" }));
@@ -14,6 +18,42 @@ app.post("/", (req, res) => {
   const body = req.body;
   console.log("body:", body);
   res.send("done");
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const resp = await database.instance.login(email, password);
+  console.log("login resp:", resp);
+
+  res.send({
+    status: resp ? "ok" : "invalid",
+    user: resp ? { email, password } : null,
+  });
+});
+
+app.post("/register", async (req, res) => {
+  const { email, username, password } = req.body;
+  const resp = await database.instance.register(username, email, password);
+
+  res.send({ status: resp });
+});
+
+app.get("/products", async (req, res) => {
+  const products = await database.instance.getProducts();
+  res.send(products);
+});
+
+app.post("/checkout", async (req, res) => {
+  const { email } = req.body;
+  //update products with the current new availability
+  //check again if all products are available, also cart item count
+  //proceed to payment
+  //send an automatic email for delivery and order info
+  //add the delivery to the database with a custom Delivery id (character/number 8 length)
+  //send the response message (ok if the order is done, otherwise error message)
+  //send to the orders' email the new order with all products and shipment address
+  emailer.instance.sendEmail(email, "Order Confirmation", "");
+  emailer.instance.sendEmail("our email", "Order Received", "");
 });
 
 app.listen(port, () => {

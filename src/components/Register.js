@@ -3,10 +3,11 @@ import { Navigate } from "react-router-dom";
 import withContext from "../withContext";
 import { Link } from "react-router-dom";
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: "",
       username: "",
       password: "",
     };
@@ -15,16 +16,16 @@ class Login extends Component {
   handleChange = (e) =>
     this.setState({ [e.target.name]: e.target.value, error: "" });
 
-  login = (e) => {
+  register = (e) => {
     e.preventDefault();
 
-    const { username, password } = this.state;
-    if (!username || !password) {
+    const { email, username, password } = this.state;
+    if (!email || !username || !password) {
       return this.setState({ error: "Fill all fields!" });
     }
-    this.props.context.login(username, password).then((loggedIn) => {
-      if (!loggedIn) {
-        this.setState({ error: "Invalid Credentails" });
+    this.props.context.register(email, username, password).then((msg) => {
+      if (msg !== "ok") {
+        this.setState({ error: msg });
       }
     });
   };
@@ -34,20 +35,29 @@ class Login extends Component {
       <>
         <div className="hero is-primary ">
           <div className="hero-body container">
-            <h4 className="title">Login</h4>
+            <h4 className="title">Register</h4>
           </div>
         </div>
         <br />
         <br />
-        <form onSubmit={this.login}>
+        <form onSubmit={this.register}>
           <div className="columns is-mobile is-centered">
             <div className="column is-one-third">
+              <div className="field">
+                <label className="label">Username: </label>
+                <input
+                  className="input"
+                  type="username"
+                  name="username"
+                  onChange={this.handleChange}
+                />
+              </div>
               <div className="field">
                 <label className="label">Email: </label>
                 <input
                   className="input"
                   type="email"
-                  name="username"
+                  name="email"
                   onChange={this.handleChange}
                 />
               </div>
@@ -63,13 +73,15 @@ class Login extends Component {
               {this.state.error && (
                 <div className="has-text-danger">{this.state.error}</div>
               )}
-              <Link  to="/register" className="button is-primary is-outlined is-pulled-right">
-                Register
-              </Link>
-             {" "}
               <div className="field is-clearfix">
-                <button className="button is-primary is-outlined is-pulled-right">
+                <Link
+                  to="/login"
+                  className="button is-primary is-outlined is-pulled-right"
+                >
                   Login
+                </Link>
+                <button className="button is-primary is-outlined is-pulled-right">
+                  Register
                 </button>
               </div>
             </div>
@@ -82,4 +94,4 @@ class Login extends Component {
   }
 }
 
-export default withContext(Login);
+export default withContext(Register);

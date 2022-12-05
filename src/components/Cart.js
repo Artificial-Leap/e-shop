@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import withContext from "../withContext";
 import CartItem from "./CartItem";
 
@@ -22,6 +23,8 @@ const Cart = (props) => {
                 key={key}
                 cartItem={cart[key]}
                 removeFromCart={props.context.removeFromCart}
+                increaseitem={props.context.increaseItem}
+                decreaseItem={props.context.decreaseItem}
               />
             ))}
             <div className="column is-12 is-clearfix">
@@ -33,12 +36,10 @@ const Cart = (props) => {
                 >
                   Clear cart
                 </button>{" "}
-                <button
-                  className="button is-success"
-                  onClick={props.context.checkout}
-                >
+                <Link  to="/checkout" className="button is-success">
+                  {/*onClick={props.context.checkout}*/}
                   Checkout
-                </button>
+                </Link>
               </div>
             </div>
           </div>

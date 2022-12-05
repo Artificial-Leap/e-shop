@@ -27,6 +27,14 @@ const CartItem = (props) => {
           >
             <span className="delete is-large"></span>
           </div>
+          <button
+            onClick={() => {
+              props.increaseitem(cartKey);
+            }}
+          >
+            Increase
+          </button>
+          <button onClick={() => props.decreaseItem(cartKey)}>Decrease</button>
         </div>
       </div>
     </div>

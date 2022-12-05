@@ -6,9 +6,11 @@ import Cart from "./components/Cart";
 import Login from "./components/Login";
 import ProductList from "./components/ProductList";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import { SERVER_URL } from "./constants";
 
 import Context from "./Context";
+import Register from "./components/Register";
+import Checkout from "./components/Checkout";
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -24,12 +26,34 @@ export default class App extends Component {
     let user = localStorage.getItem("user");
     let cart = localStorage.getItem("cart");
 
-    const products = await axios.get("http://localhost:3001/products");
+    const products = await axios.get(SERVER_URL + "/products");
     user = user ? JSON.parse(user) : null;
     cart = cart ? JSON.parse(cart) : {};
 
     this.setState({ user, products: products.data, cart });
   }
+
+  increaseItem = (cartItemId) => {
+    let cart = this.state.cart;
+    if (cart[cartItemId]) {
+      cart[cartItemId].amount += 1;
+      if (cart[cartItemId].amount > cart[cartItemId].product.stock) {
+        cart[cartItemId].amount = cart[cartItemId].product.stock;
+      }
+      this.setState({ cart });
+    }
+  };
+  decreaseItem = (cartItemId) => {
+    let cart = this.state.cart;
+    if (cart[cartItemId]) {
+      if (cart[cartItemId].amount === 1) {
+        this.removeFromCart(cartItemId);
+      } else {
+        cart[cartItemId].amount -= 1;
+      }
+      this.setState({ cart });
+    }
+  };
 
   addToCart = (cartItem) => {
     let cart = this.state.cart;
@@ -58,22 +82,19 @@ export default class App extends Component {
     this.setState({ cart });
   };
 
-  checkout = () => {
+  checkout = async (email, cart, eth_address) => {
     if (!this.state.user) {
-      this.routerRef.current.history.push("/login");
       return;
     }
 
-    const cart = this.state.cart;
-
-    const products = this.state.products.map((p) => {
-      if (cart[p.name]) {
-        p.stock = p.stock - cart[p.name].amount;
-
-        axios.put(`http://localhost:3001/products/${p.id}`, { ...p });
-      }
-      return p;
+    const resp = await axios.post(SERVER_URL + "/checkout", {
+      email,
+      cart,
+      eth_address,
     });
+    console.log("checkout resp:", resp.data);
+
+    const products = await axios.get(SERVER_URL + "/products");
 
     this.setState({ products });
     this.clearCart();
@@ -87,16 +108,16 @@ export default class App extends Component {
 
   login = async (email, password) => {
     const res = await axios
-      .post("http://localhost:3001/login", { email, password })
+      .post(SERVER_URL + "/login", { email, password })
       .catch((res) => {
         return { status: 401, message: "Unauthorized" };
       });
 
-    if (res.status === 200) {
-      const { email } = jwt_decode(res.data.accessToken);
+    console.log("login:", res.data);
+    if (res.data.status === "ok") {
+      const { email } = res.data.user;
       const user = {
         email,
-        token: res.data.accessToken,
         accessLevel: email === "admin@example.com" ? 0 : 1,
       };
 
@@ -106,6 +127,27 @@ export default class App extends Component {
     } else {
       return false;
     }
+  };
+
+  register = async (email, username, password) => {
+    const res = await axios
+      .post(SERVER_URL + "/register", { email, username, password })
+      .catch((res) => {
+        return { status: 401, message: "Unauthorized" };
+      });
+
+    console.log("register:", res.data);
+
+    if (res.data?.status === "ok") {
+      const user = {
+        email,
+        accessLevel: email === "admin@example.com" ? 0 : 1,
+      };
+
+      this.setState({ user });
+    }
+
+    return res.data?.status;
   };
 
   logout = (e) => {
@@ -122,9 +164,12 @@ export default class App extends Component {
           removeFromCart: this.removeFromCart,
           addToCart: this.addToCart,
           login: this.login,
+          register: this.register,
           addProduct: this.addProduct,
           clearCart: this.clearCart,
           checkout: this.checkout,
+          increaseItem: this.increaseItem,
+          decreaseItem: this.decreaseItem,
         }}
       >
         <Router innerRef={this.routerRef}>
@@ -135,7 +180,7 @@ export default class App extends Component {
               aria-label="main navigation"
             >
               <div className="navbar-brand">
-                <b className="navbar-item is-size-4 ">E-shop</b>
+                <b className="navbar-item is-size-4 ">Fable</b>
                 <label
                   role="button"
                   className="navbar-burger burger"
@@ -188,9 +233,11 @@ export default class App extends Component {
             <Routes>
               <Route path="/" element={<ProductList />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/products" element={<ProductList />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Routes>
           </div>
         </Router>

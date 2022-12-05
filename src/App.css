@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.img-wrapper {
+  overflow: hidden;
+}
+.hover-zoom img:hover {
+  transform: scale(1.25);
+}
