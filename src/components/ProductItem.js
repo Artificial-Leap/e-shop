@@ -1,4 +1,5 @@
 import React from "react";
+import getLangText from "../transcripts";
 
 const ProductItem = (props) => {
   const { product } = props;
@@ -22,9 +23,9 @@ const ProductItem = (props) => {
             </b>
             <div>{product.shortDesc}</div>
             {product.stock > 0 ? (
-              <small>{product.stock + " Available"}</small>
+              <small>{product.stock + " " + getLangText(props.lang, "available")}</small>
             ) : (
-              <small className="has-text-danger">Out Of Stock</small>
+              <small className="has-text-danger">{getLangText(props.lang, "out_of_stock")}</small>
             )}
             <div className="is-clearfix">
               <button
@@ -37,7 +38,7 @@ const ProductItem = (props) => {
                   })
                 }
               >
-                Add to Cart
+                {getLangText(props.lang, "add_cart")}
               </button>
             </div>
           </div>

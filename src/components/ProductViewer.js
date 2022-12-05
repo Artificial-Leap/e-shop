@@ -1,4 +1,5 @@
 import React from "react";
+import getLangText from "../transcripts";
 import withContext from "../withContext";
 
 const ProductViewer = (props) => {
@@ -11,9 +12,13 @@ const ProductViewer = (props) => {
         <figure className="image is-128x128">
           <img src={product.image} alt={product.name} />
         </figure>
-        <label>Price: {product.price}</label>
+        <label>
+          {getLangText(props.lang, "price")}: {product.price}
+        </label>
         <br />
-        <label>Description: {product.description}</label>
+        <label>
+          {getLangText(props.lang, "description")}: {product.description}
+        </label>
         <br />
         <button
           className="button is-small is-outlined is-primary   is-pulled-right"
@@ -25,13 +30,13 @@ const ProductViewer = (props) => {
             })
           }
         >
-          Add to Cart
+          {getLangText(props.lang, "add_cart")}
         </button>
         <button
           className="button is-small is-outlined is-primary   is-pulled-right"
           onClick={() => props.setProduct("")}
         >
-          Back
+          {getLangText(props.lang, "back")}
         </button>
       </div>
     </>

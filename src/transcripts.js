@@ -6,16 +6,18 @@ export const initText = () => {
 
   text["gr"]["title"] = "Easel Clothing"
   text["gr"]["add_cart"] = "Προσθήκη στο καλάθι"
-  text["gr"]["main_title"] = "Τα προϊόντα"
+  text["gr"]["main_title"] = "Προϊόντα"
   text["gr"]["products"] = "Προϊόντα"
+  text["gr"]["product"] = "Προϊόντος"
   text["gr"]["cart"] = "Το καλάθι μου"
   text["gr"]["login"] = "Σύνδεση"
   text["gr"]["password"] = "Κωδικός"
   text["gr"]["register"] = "Εγγραφή"
   text["gr"]["available"] = "Διαθέσιμα"
   text["gr"]["clearcart"] = "Εκκαθάριση καλαθιού"
-  text["gr"]["clearcart"] = "Ολοκλήρωση αγοράς"
+  text["gr"]["checkout"] = "Ολοκλήρωση αγοράς"
   text["gr"]["noitemincart"] = "Δεν υπάρχουν αντικείμενα στο καλάθι!"
+  text["gr"]["no_products_found"] = "Δεν βρέθηκαν προιόντα!"
   text["gr"]["fullname"] = "Ονοματεπώνυμο"
   text["gr"]["shipping_adress"] = "Διεύθυνση κατοικίας"
   text["gr"]["city"] = "Πόλη"
@@ -38,20 +40,27 @@ export const initText = () => {
   text["gr"]["Debit / Credit Card"] = "Χρεωστική / Πιστωτική Κάρτα"
   text["gr"]["Product's Amount"] = "Ποσότητα προϊόντος"
   text["gr"]["Total Amount"] = "Σύνολο ποσού"
+  text["gr"]["out_of_stock"] = "0 Διαθέσιμα"
+  text["gr"]["back"] = "Πίσω"
+  text["gr"]["price"] = "Τιμή"
+  text["gr"]["description"] = "Περιγραφή"
 
   //====================
   text["us"]["title"] = "Easel Clothing"
   text["us"]["add_cart"] = "Add to Cart"
   text["us"]["main_title"] = "Our Products"
   text["us"]["products"] = "Products"
+  text["us"]["product"] = "Product"
   text["us"]["cart"] = "Cart"
   text["us"]["Login"] = "Login"
   text["us"]["password"] = "Password"
   text["us"]["register"] = "Register"
   text["us"]["available"] = "Available"
   text["us"]["clearcart"] = "Clear cart"
-  text["us"]["clearcart"] = "Checkout"
+  text["us"]["checkout"] = "Checkout"
+  text["us"]["out_of_stock"] = "Out of Stock"
   text["us"]["noitemincart"] = "No items in cart!"
+  text["gr"]["no_products_found"] = "No products found!"
   text["us"]["fullname"] = "Full Name"
   text["us"]["shipping_adress"] = "Shipping Adress"
   text["us"]["city"] = "City"
@@ -74,8 +83,11 @@ export const initText = () => {
   text["us"]["Debit / Credit Card"] = "Debit / Credit Card"
   text["us"]["Product's Amount"] = "Product's Amount"
   text["us"]["Total Amount"] = "Total Amount"
+  text["us"]["back"] = "Back"
+  text["us"]["price"] = "Price"
+  text["us"]["description"] = "Description"
 };
 
-export default function getText(lang, id) {
+export default function getLangText(lang, id) {
   return text[lang][id];
 }

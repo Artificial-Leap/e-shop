@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import withContext from "../withContext";
 import PaypalPayment from "./PaypalPayment";
 import CryptoPayment from "./CryptoPayment";
+import getLangText from "../transcripts";
 
 class Checkout extends Component {
   constructor(props) {
@@ -97,8 +98,11 @@ class Checkout extends Component {
         <div className="hero is-primary ">
           <div className="hero-body container">
             <h4 className="title">
-              Checkout {this.getProductCount()}{" "}
-              {this.getProductCount() === 1 ? "Product" : "Products"}
+              {getLangText(this.props.context.lang, "checkout")}{" "}
+              {this.getProductCount()}{" "}
+              {this.getProductCount() === 1
+                ? getLangText(this.props.context.lang, "product")
+                : getLangText(this.props.context.lang, "products")}
             </h4>
           </div>
         </div>
@@ -108,7 +112,9 @@ class Checkout extends Component {
           <div className="columns is-mobile is-centered">
             <div className="column is-one-third">
               <div className="field">
-                <label className="label">Full Name</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "fullname")}
+                </label>
                 <input
                   className="input"
                   type="input"
@@ -118,7 +124,7 @@ class Checkout extends Component {
               </div>
               <div className="field">
                 <label className="label">
-                  Shipping Address (City, Province, Postal Code)
+                  {getLangText(this.props.context.lang, "shipping_address")}
                 </label>
                 <input
                   className="input"
@@ -128,7 +134,9 @@ class Checkout extends Component {
                 />
               </div>
               <div className="field">
-                <label className="label">Phone</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "phone")}
+                </label>
                 <input
                   className="input"
                   type="input"
@@ -137,7 +145,14 @@ class Checkout extends Component {
                 />
               </div>
               <div className="field">
-                <label className="label">Apt/Suite/Unit (Optional)</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "apt") +
+                    "/" +
+                    getLangText(this.props.context.lang, "suite") +
+                    getLangText(this.props.context.lang, "unit") +
+                    " " +
+                    getLangText(this.props.context.lang, "optional")}
+                </label>
                 <input
                   className="input"
                   type="input"
@@ -146,33 +161,46 @@ class Checkout extends Component {
                 />
               </div>
               <div className="field">
-                <label className="label">Shipping Method</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "shipping_method")}
+                </label>
                 <select
                   className="input"
                   name="shipping_method"
                   onChange={this.handleChange}
                 >
-                  <option value="normal">Normal</option>
-                  <option value="fast">Fast</option>
+                  <option value="normal">
+                    {getLangText(this.props.context.lang, "normal")}
+                  </option>
+                  <option value="fast">
+                    {getLangText(this.props.context.lang, "fast")}
+                  </option>
                 </select>
                 <label className="label">
-                  Shippment Amount: {this.getShippmentAmount()}
+                  {getLangText(this.props.context.lang, "shippment_amount")}:{" "}
+                  {this.getShippmentAmount()}
                 </label>
               </div>
               <div className="field">
-                <label className="label">This is a gift</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "this_is_a_gift")}
+                </label>
                 <select
                   className="input"
                   name="gift"
                   onChange={this.handleChange}
                 >
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
+                  <option value="yes">
+                    {getLangText(this.props.context.lang, "Yes")}
+                  </option>
+                  <option value="no">
+                    {getLangText(this.props.context.lang, "No")}
+                  </option>
                 </select>
               </div>
               <div className="field">
                 <label className="label">
-                  Ethereum Address (Clothe NFT will be sent there - Optional):{" "}
+                  {getLangText(this.props.context.lang, "Ethereum_address")}
                 </label>
                 <input
                   className="input"
@@ -182,14 +210,20 @@ class Checkout extends Component {
                 />
               </div>
               <div className="field">
-                <label className="label">Invoice</label>
+                <label className="label">
+                  {getLangText(this.props.context.lang, "invoice")}
+                </label>
                 <select
                   className="input"
                   name="invoice"
                   onChange={this.handleChange}
                 >
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
+                  <option value="no">
+                    {getLangText(this.props.context.lang, "No")}
+                  </option>
+                  <option value="yes">
+                    {getLangText(this.props.context.lang, "Yes")}
+                  </option>
                 </select>
               </div>
               {this.state.invoice == "yes" ? (

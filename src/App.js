@@ -14,6 +14,7 @@ import Checkout from "./components/Checkout";
 import Contact from "./components/Contact";
 
 import ReactGA from "react-ga";
+import getLangText from "./transcripts";
 
 export default class App extends Component {
   constructor(props) {
@@ -207,7 +208,9 @@ export default class App extends Component {
               aria-label="main navigation"
             >
               <div className="navbar-brand">
-                <b className="navbar-item is-size-4 ">Fable</b>
+                <b className="navbar-item is-size-4 ">
+                  {getLangText(this.state.lang, "title")}
+                </b>
                 <label
                   role="button"
                   className="navbar-burger burger"
@@ -230,18 +233,18 @@ export default class App extends Component {
                 }`}
               >
                 <Link to="/products" className="navbar-item">
-                  Products
+                  {getLangText(this.state.lang, "products")}
                 </Link>
                 <Link to="/contact" className="navbar-item">
                   Contact
                 </Link>
                 {this.state.user && this.state.user.accessLevel < 1 && (
                   <Link to="/add-product" className="navbar-item">
-                    Add Product
+                    {getLangText(this.state.lang, "add_product")}
                   </Link>
                 )}
                 <Link to="/cart" className="navbar-item">
-                  Cart
+                  {getLangText(this.state.lang, "cart")}
                   <span
                     className="tag is-primary"
                     style={{ marginLeft: "5px" }}
@@ -251,11 +254,11 @@ export default class App extends Component {
                 </Link>
                 {!this.state.user ? (
                   <Link to="/login" className="navbar-item">
-                    Login
+                    {getLangText(this.state.lang, "login")}
                   </Link>
                 ) : (
                   <Link to="/" onClick={this.logout} className="navbar-item">
-                    Logout
+                    {getLangText(this.state.lang, "logout")}
                   </Link>
                 )}
               </div>
@@ -277,7 +280,7 @@ export default class App extends Component {
               <Route path="/cart" element={<Cart />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/products" element={<ProductList />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout" element={<Checkout lang={this.state.lang}/>} />
               <Route
                 path="/contact"
                 element={

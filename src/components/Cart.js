@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import getLangText from "../transcripts";
 import withContext from "../withContext";
 import CartItem from "./CartItem";
 
@@ -14,7 +15,7 @@ const Cart = (props) => {
     <>
       <div className="hero is-primary">
         <div className="hero-body container">
-          <h4 className="title">My Cart</h4>
+          <h4 className="title">{getLangText(props.context.lang, "cart")}</h4>
         </div>
       </div>
       <br />
@@ -29,6 +30,7 @@ const Cart = (props) => {
                 removeFromCart={props.context.removeFromCart}
                 increaseitem={props.context.increaseItem}
                 decreaseItem={props.context.decreaseItem}
+                lang={props.context.lang}
               />
             ))}
             <div className="column is-12 is-clearfix">
@@ -38,18 +40,18 @@ const Cart = (props) => {
                   onClick={props.context.clearCart}
                   className="button is-warning "
                 >
-                  Clear cart
+                  {getLangText(props.context.lang, "clearcart")}
                 </button>{" "}
                 <Link to="/checkout" className="button is-success">
                   {/*onClick={props.context.checkout}*/}
-                  Checkout
+                  {getLangText(props.context.lang, "checkout")}
                 </Link>
               </div>
             </div>
           </div>
         ) : (
           <div className="column">
-            <div className="title has-text-grey-light">No item in cart!</div>
+            <div className="title has-text-grey-light">{getLangText(props.context.lang, "noitemincart")}</div>
           </div>
         )}
       </div>

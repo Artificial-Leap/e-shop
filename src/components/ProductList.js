@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ProductItem from "./ProductItem";
 import withContext from "../withContext";
 import ProductViewer from "./ProductViewer";
+import getLangText from "../transcripts";
 
 const ProductList = (props) => {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -38,7 +39,7 @@ const ProductList = (props) => {
     }
 
     return {};
-  }
+  };
 
   const selectProduct = (product) => {
     setSelectedProduct(product.id);
@@ -49,7 +50,9 @@ const ProductList = (props) => {
       <div className="hero is-primary">
         <div className="hero-body container">
           <h4 className="title">
-            {selectedProduct ? getProductName() : "Our Products"}
+            {selectedProduct
+              ? getProductName()
+              : getLangText(props.context.lang, "main_title")}
           </h4>
         </div>
       </div>
@@ -61,6 +64,7 @@ const ProductList = (props) => {
             addToCart={props.context.addToCart}
             product={getProduct()}
             setProduct={selectProduct}
+            lang={props.context.lang}
           />
         ) : (
           <div className="column columns is-multiline">
@@ -71,12 +75,13 @@ const ProductList = (props) => {
                   key={index}
                   addToCart={props.context.addToCart}
                   selectProduct={selectProduct}
+                  lang={props.context.lang}
                 />
               ))
             ) : (
               <div className="column">
                 <span className="title has-text-grey-light">
-                  No products found!
+                  {getLangText(props.context.lang, "no_products_found")}
                 </span>
               </div>
             )}
