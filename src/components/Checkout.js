@@ -9,12 +9,20 @@ class Checkout extends Component {
     super(props);
     this.state = {
       eth_address: "",
+      phone: "",
       payment: "paypal",
       shipping_address: "",
       full_name: "",
       apt_suite: "",
       shipping_method: "normal",
       gift: "no",
+      invoice: "no",
+      invoice_name: "",
+      invoice_phone: "",
+      invoice_email: "",
+      invoice_address: "",
+      invoice_date: new Date(),
+      invoice_vat: "",
     };
   }
 
@@ -58,7 +66,7 @@ class Checkout extends Component {
   handleChange = (e) =>
     this.setState({ [e.target.name]: e.target.value, error: "" });
 
-  login = (e) => {
+  checkout = (e) => {
     e.preventDefault();
 
     const email = this.props.context.user.email;
@@ -96,7 +104,7 @@ class Checkout extends Component {
         </div>
         <br />
         <br />
-        <form onSubmit={this.login}>
+        <form onSubmit={this.checkout}>
           <div className="columns is-mobile is-centered">
             <div className="column is-one-third">
               <div className="field">
@@ -116,6 +124,15 @@ class Checkout extends Component {
                   className="input"
                   type="input"
                   name="shipping_address"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="field">
+                <label className="label">Phone</label>
+                <input
+                  className="input"
+                  type="input"
+                  name="phone"
                   onChange={this.handleChange}
                 />
               </div>
@@ -165,6 +182,66 @@ class Checkout extends Component {
                 />
               </div>
               <div className="field">
+                <label className="label">Invoice</label>
+                <select
+                  className="input"
+                  name="invoice"
+                  onChange={this.handleChange}
+                >
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </div>
+              {this.state.invoice == "yes" ? (
+                <div>
+                  <div className="field">
+                    <label className="label">Name</label>
+                    <input
+                      className="input"
+                      type="input"
+                      name="invoice_name"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="field">
+                    <label className="label">Phone</label>
+                    <input
+                      className="input"
+                      type="input"
+                      name="invoice_phone"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="field">
+                    <label className="label">Email</label>
+                    <input
+                      className="input"
+                      type="input"
+                      name="invoice_email"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="field">
+                    <label className="label">Billing Address</label>
+                    <input
+                      className="input"
+                      type="input"
+                      name="invoice_address"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="field">
+                    <label className="label">VAT</label>
+                    <input
+                      className="input"
+                      type="input"
+                      name="invoice_vat"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+              ) : null}
+              <div className="field">
                 <label className="label">Payement Method</label>
                 <select
                   className="input"
@@ -183,13 +260,11 @@ class Checkout extends Component {
                   Total Amount: {this.getTotalAmount()}
                 </label>
               </div>
-
               {this.state.payment === "crypto" ? (
                 <CryptoPayment payment_done={this.payment_done} />
               ) : (
                 <PaypalPayment payment_done={this.payment_done} />
               )}
-
               {this.state.error && (
                 <div className="has-text-danger">{this.state.error}</div>
               )}

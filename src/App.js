@@ -18,6 +18,7 @@ export default class App extends Component {
       user: null,
       cart: {},
       products: [],
+      lang: "gr",
     };
     this.routerRef = React.createRef();
   }
@@ -156,6 +157,15 @@ export default class App extends Component {
     localStorage.removeItem("user");
   };
 
+  changeLanguage = (lang) => {
+    if (this.state.lang === lang || !lang) {
+      return;
+    }
+    this.setState({ lang });
+    //highlight the current language button
+    console.log("SELECTED:", lang);
+  };
+
   render() {
     return (
       <Context.Provider
@@ -229,6 +239,16 @@ export default class App extends Component {
                   </Link>
                 )}
               </div>
+              <img
+                onClick={() => this.changeLanguage("us")}
+                src="/us_flag.png"
+                alt="us_flag"
+              />
+              <img
+                onClick={() => this.changeLanguage("gr")}
+                src="/gr_flag.webp"
+                alt="gr_flag"
+              />
             </nav>
             <Routes>
               <Route path="/" element={<ProductList />} />

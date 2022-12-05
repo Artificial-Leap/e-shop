@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProductItem = props => {
+const ProductItem = (props) => {
   const { product } = props;
   return (
     <div className=" column is-half">
@@ -9,6 +9,7 @@ const ProductItem = props => {
           <div className="media-left">
             <figure className="image is-64x64">
               <img
+                onClick={() => props.selectProduct(product)}
                 src={product.image}
                 alt={product.name}
               />
@@ -32,7 +33,7 @@ const ProductItem = props => {
                   props.addToCart({
                     id: product.name,
                     product,
-                    amount: 1
+                    amount: 1,
                   })
                 }
               >
