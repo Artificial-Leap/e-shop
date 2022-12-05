@@ -27,6 +27,7 @@ export default class App extends Component {
     };
     this.routerRef = React.createRef();
     this.useAnalyticsEventTracker("main page", "pageview", "pageview");
+    this.changeLanguage(localStorage.getItem("language") || "gr");
   }
 
   async componentDidMount() {
@@ -177,6 +178,7 @@ export default class App extends Component {
     this.setState({ lang });
     //highlight the current language button
     console.log("SELECTED:", lang);
+    localStorage.setItem("language", lang);
     this.useAnalyticsEventTracker("change language", "change language", lang);
   };
 
