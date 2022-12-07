@@ -15,6 +15,7 @@ import Contact from "./components/Contact";
 
 import ReactGA from "react-ga";
 import getLangText from "./transcripts";
+import Chat from "./components/Chat";
 
 export default class App extends Component {
   constructor(props) {
@@ -273,6 +274,7 @@ export default class App extends Component {
                 alt="gr_flag"
               />
             </nav>
+            <Chat />
             <Routes>
               <Route path="/" element={<ProductList />} />
               <Route path="/login" element={<Login />} />
@@ -280,7 +282,10 @@ export default class App extends Component {
               <Route path="/cart" element={<Cart />} />
               <Route path="/add-product" element={<AddProduct />} />
               <Route path="/products" element={<ProductList />} />
-              <Route path="/checkout" element={<Checkout lang={this.state.lang}/>} />
+              <Route
+                path="/checkout"
+                element={<Checkout lang={this.state.lang} />}
+              />
               <Route
                 path="/contact"
                 element={

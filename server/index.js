@@ -62,6 +62,15 @@ app.post("/contact", async (req, res) => {
   res.send("ok");
 });
 
+app.post("/chat", async (req, res) => {
+  const { message, sender } = req.body;
+  //add the message to chat history with current sender & ip
+  //get message response
+  //add the response to the history too
+
+  res.send({ message });
+});
+
 app.listen(port, () => {
   console.log(`File server listening on port ${port}`);
 });
