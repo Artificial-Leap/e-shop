@@ -27,7 +27,7 @@ export default class database {
         "CREATE TABLE products(id text, name text, stock int, price float, shortDesc text, description text, image text)"
       );
       await this.db.run(
-        "CREATE TABLE sizes(id text, xs int, s int, m int, l int, xl int, xxl int"
+        "CREATE TABLE sizes(id text, xs int, s int, m int, l int, xl int, xxl int)"
       );
       await this.addProduct(
         "hdmdu0t80yjkfqselfc",
