@@ -1,0 +1,27 @@
+.contact-top {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  max-width: 700px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  gap: 35px;
+}
+.contact-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  color: var(--dark-blue);
+  width: 100%;
+}
+.contact-row svg {
+  font-size: 25px;
+}
+.contact-row a {
+  color: var(--dark-blue);
+  font-size: 16px;
+  text-decoration: none;
+}
