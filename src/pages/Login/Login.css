@@ -1,0 +1,68 @@
+.login-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  min-height: calc(100vh - 90px);
+  padding-top: 80px;
+  width: 100%;
+  max-width: var(--max-width);
+  padding-inline: 20px;
+  padding-bottom: 30px;
+}
+.login-div h2 {
+  color: var(--dark-blue);
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+.login-div form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  max-width: 700px;
+}
+.input-div-login {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+.input-div-login label {
+  font-size: 16px;
+  color: var(--dark-brown);
+}
+.input-div-login input,
+.input-div-login textarea {
+  resize: none;
+  border: 1px solid var(--dark-blue);
+  color: var(--dark-blue);
+  font-size: 16px;
+  width: 100%;
+  height: 45px;
+  border-radius: 5px;
+  background-color: white;
+  padding-left: 10px;
+}
+.input-div-login textarea {
+  height: 150px;
+  padding-top: 10px;
+}
+.login-div form .login {
+  width: 100%;
+  height: 45px;
+}
+.login-div form a {
+  align-self: flex-start;
+  color: var(--dark-blue);
+  font-weight: 500;
+}
+@media screen and (max-width: 600px) {
+  .login-div {
+    padding-top: 30px;
+  }
+}

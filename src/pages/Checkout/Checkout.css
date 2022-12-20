@@ -1,0 +1,16 @@
+.input-div-login select {
+  border: 1px solid var(--dark-blue);
+  color: var(--dark-blue);
+  font-size: 16px;
+  width: 100%;
+  height: 45px;
+  border-radius: 5px;
+  background-color: white;
+  padding-left: 10px;
+}
+.total-amount {
+  color: var(--dark-blue);
+  font-weight: 400;
+  align-self: flex-start;
+  margin: 10px 0px;
+}
