@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
+import Chatbot from "./components/Chatbot/Chatbot";
 import { SERVER_URL } from "./constants";
 import Header from "./layout/Header/Header";
 import Cart from "./pages/Cart/Cart";
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <Chatbot />
       <Routes>
         <Route path="/" element={<Products />} />
         <Route path="/cart" element={<Cart />} />
