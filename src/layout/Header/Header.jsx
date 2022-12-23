@@ -19,7 +19,7 @@ const Header = () => {
       <nav>
         <div className="left-nav">
           <Link className="logo" to={"/"}>
-            <h2>Fable</h2>
+            <h2>Easel Wear</h2>
           </Link>
           <div className={`nav-links ${headerToggle ? "active-nav" : ""}`}>
             <Link to={"/"} onClick={() => setHeaderToggle(false)} href="#">
