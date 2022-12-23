@@ -30,36 +30,6 @@ const Products = () => {
                 />
               );
             })}
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="$850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="$850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="$850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="$850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="$850"
-          />
         </div>
       </div>
     </div>
