@@ -36,7 +36,7 @@ export default class database {
         500,
         "shoes",
         "Shoes",
-        "http://localhost:3002/static/shoes.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shoes.png"
       );
       await this.addProduct(
         "3dc7fiyzlfmkfqseqam",
@@ -45,7 +45,7 @@ export default class database {
         500,
         "bag",
         "bag",
-        "http://localhost:3002/static/bag.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png"
       );
       await this.addProduct(
         "aoe8wvdxvrkfqsew67",
@@ -54,7 +54,7 @@ export default class database {
         500,
         "shirt",
         "shirt",
-        "http://localhost:3002/static/shirt.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shirt.png"
       );
       await this.addProduct(
         "bmfrurdkswtkfqsf15j",
@@ -63,7 +63,7 @@ export default class database {
         500,
         "shorts",
         "shorts",
-        "http://localhost:3002/static/shorts.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shorts.png"
       );
     }
   };
