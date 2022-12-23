@@ -8,6 +8,7 @@ import Checkout from "./pages/Checkout/Checkout";
 import Contact from "./pages/Contact/Contact";
 import Login from "./pages/Login/Login";
 import Products from "./pages/Products/Products";
+import ProductView from "./pages/ProductView/ProductView";
 import SignUp from "./pages/SignUp/SignUp";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/:id" element={<ProductView />} />
       </Routes>
     </div>
   );

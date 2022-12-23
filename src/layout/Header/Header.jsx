@@ -8,8 +8,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const { cart } = useSelector((state) => state.products);
   const [headerToggle, setHeaderToggle] = useState(false);
 
   return (
@@ -45,7 +47,7 @@ const Header = () => {
         <div className="right-nav">
           <Link to={"/cart"} className="cart">
             <FontAwesomeIcon icon={faShoppingCart} />
-            <p>0</p>
+            <p>{cart.length}</p>
           </Link>
           <Link to={"/login"} className="login">
             Login

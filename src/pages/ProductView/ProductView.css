@@ -1,0 +1,82 @@
+.product-div {
+  margin-top: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--max-width);
+  gap: 40px;
+  padding-inline: 20px;
+}
+.left-details {
+  width: 100%;
+}
+.left-details img {
+  max-width: 600px;
+  width: 1005;
+  aspect-ratio: 1/1;
+}
+.right-details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.right-details h2 {
+  font-size: 40px;
+  line-height: 1;
+  color: var(--dark-blue);
+}
+.right-details p {
+  color: var(--dark-blue);
+  font-size: 17px;
+  line-height: 1.2;
+}
+.right-details h3 {
+  color: var(--dark-blue);
+  font-size: 20px;
+}
+.quantity-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+.quantity-div button {
+  width: 40px;
+  height: 40px;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  font-size: 20px;
+  border-radius: 6px;
+}
+.quantity-div p {
+  font-size: 20px;
+  font-weight: bold;
+  width: 40px;
+  text-align: center;
+}
+.right-details .login {
+  width: 170px;
+  height: 40px;
+}
+@media screen and (max-width: 875px) {
+  .product-div {
+    flex-direction: column;
+    align-items: center;
+  }
+  .left-details,
+  .right-details {
+    text-align: center;
+    align-items: center;
+  }
+  .left-details img {
+    max-width: 300px;
+    width: 100%;
+  }
+}

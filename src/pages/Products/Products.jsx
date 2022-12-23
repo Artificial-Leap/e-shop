@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { getProducts } from "../../redux/productsSlice";
 import "./styles/Products.css";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.products);
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await axios.get("/products");
-      setProducts(res.data);
+      dispatch(getProducts(res.data));
     };
     fetchProducts();
   }, []);
@@ -27,39 +30,40 @@ const Products = () => {
                   img={elem.image}
                   desc={elem.shortDesc}
                   price={elem.price}
+                  id={elem.id}
                 />
               );
             })}
-          <ProductCard
+          {/* <ProductCard
             img="/assets/test-item.webp"
             name="Sain Laurent"
             desc="Logo printed textured hoodie"
-            price="$850"
+            price="850"
           />
           <ProductCard
             img="/assets/test-item.webp"
             name="Sain Laurent"
             desc="Logo printed textured hoodie"
-            price="$850"
+            price="850"
           />
           <ProductCard
             img="/assets/test-item.webp"
             name="Sain Laurent"
             desc="Logo printed textured hoodie"
-            price="$850"
+            price="850"
           />
           <ProductCard
             img="/assets/test-item.webp"
             name="Sain Laurent"
             desc="Logo printed textured hoodie"
-            price="$850"
+            price="850"
           />
           <ProductCard
             img="/assets/test-item.webp"
             name="Sain Laurent"
             desc="Logo printed textured hoodie"
-            price="$850"
-          />
+            price="850"
+          /> */}
         </div>
       </div>
     </div>
