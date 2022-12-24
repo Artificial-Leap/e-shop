@@ -45,6 +45,7 @@ app.get("/products", async (req, res) => {
 
 app.get("/sizes", async(req, res) => {
   const sizes = await database.instance.getSizes();
+  console.log("sizes:", sizes)
   res.send(sizes);
 });
 

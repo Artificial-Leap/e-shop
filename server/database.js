@@ -49,7 +49,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png",
         "true"
       );
-      await this.updateProductSize("3dc7fiyzlfmkfqseqam", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "3dc7fiyzlfmkfqseqam",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
       await this.addProduct(
         "aoe8wvdxvrkfqsew67",
         "shirt",
@@ -60,7 +68,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shirt.png",
         "true"
       );
-      await this.updateProductSize("aoe8wvdxvrkfqsew67", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "aoe8wvdxvrkfqsew67",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
       await this.addProduct(
         "bmfrurdkswtkfqsf15j",
         "shorts",
@@ -71,7 +87,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shorts.png",
         "true"
       );
-      await this.updateProductSize("bmfrurdkswtkfqsf15j", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "bmfrurdkswtkfqsf15j",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
     }
   };
 
@@ -182,14 +206,24 @@ export default class database {
   };
 
   updateProductSize = async (id, xs, s, m, l, xl, xxl) => {
-    const query =
-      "UPDATE sizes SET xs = ?, s = ?, m = ?, l = ?, xl = ?, xxl = ? WHERE id = ?";
-    await this.db.run(query, [xs, s, m, l, xl, xxl, id]);
+    //check if the product size exists
+    const query = "SELECT * FROM sizes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    if (!result) {
+      const query =
+        "INSERT INTO sizes (id, xs, s, m, l, xl, xxl) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      await this.db.run(query, [id, xs, s, m, l, xl, xxl]);
+    } else {
+      const query2 =
+        "UPDATE sizes SET xs = ?, s = ?, m = ?, l = ?, xl = ?, xxl = ? WHERE id = ?";
+      await this.db.run(query2, [xs, s, m, l, xl, xxl, id]);
+    }
   };
 
-  getSizes = async() => {
+  getSizes = async () => {
     const query = "SELECT * FROM sizes";
     const result = await this.db.get(query);
+    console.log("res", result);
     return result;
-  }
+  };
 }
