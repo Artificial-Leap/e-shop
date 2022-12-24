@@ -32,6 +32,13 @@ const Header = () => {
             >
               Contact Us
             </Link>
+            <Link
+              to={"/map"}
+              onClick={() => setHeaderToggle(false)}
+              href="#"
+            >
+              Map
+            </Link>
             <div className="input-div">
               <FontAwesomeIcon icon={faSearch} />
               <input placeholder="Search" type="text" />
