@@ -24,19 +24,10 @@ export default class database {
         "CREATE TABLE users(id TEXT, username TEXT, email TEXT, password TEXT)"
       );
       await this.db.run(
-        "CREATE TABLE products(id text, name text, stock int, price float, shortDesc text, description text, image text)"
+        "CREATE TABLE products(id text, name text, stock int, price float, shortDesc text, description text, image text, hasSize boolean)"
       );
       await this.db.run(
         "CREATE TABLE sizes(id text, xs int, s int, m int, l int, xl int, xxl int)"
-      );
-      await this.addProduct(
-        "hdmdu0t80yjkfqselfc",
-        "shoes",
-        10,
-        500,
-        "shoes",
-        "Shoes",
-        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shoes.png"
       );
       await this.addProduct(
         "3dc7fiyzlfmkfqseqam",
@@ -45,8 +36,20 @@ export default class database {
         500,
         "bag",
         "bag",
-        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png",
+        "false"
       );
+      await this.addProduct(
+        "3dc7fiyzlfmkfqseqam",
+        "bag",
+        10,
+        500,
+        "bag",
+        "bag",
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png",
+        "true"
+      );
+      await this.updateProductSize("3dc7fiyzlfmkfqseqam", 10, 10, 10, 10, 10, 10);
       await this.addProduct(
         "aoe8wvdxvrkfqsew67",
         "shirt",
@@ -54,8 +57,10 @@ export default class database {
         500,
         "shirt",
         "shirt",
-        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shirt.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shirt.png",
+        "true"
       );
+      await this.updateProductSize("aoe8wvdxvrkfqsew67", 10, 10, 10, 10, 10, 10);
       await this.addProduct(
         "bmfrurdkswtkfqsf15j",
         "shorts",
@@ -63,8 +68,10 @@ export default class database {
         500,
         "shorts",
         "shorts",
-        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shorts.png"
+        "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shorts.png",
+        "true"
       );
+      await this.updateProductSize("bmfrurdkswtkfqsf15j", 10, 10, 10, 10, 10, 10);
     }
   };
 
@@ -144,17 +151,27 @@ export default class database {
     price,
     shortDesc,
     description,
-    image
+    image,
+    hasSize
   ) => {
     if (await this.productIDExists(id)) {
       return "Product ID already exists!";
     }
 
     const query =
-      "INSERT INTO products (id, name, stock, price, shortDesc, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO products (id, name, stock, price, shortDesc, description, image, hasSize) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     await this;
 
-    this.db.run(query, [id, name, stock, price, shortDesc, description, image]);
+    this.db.run(query, [
+      id,
+      name,
+      stock,
+      price,
+      shortDesc,
+      description,
+      image,
+      hasSize,
+    ]);
     return "ok";
   };
 
@@ -163,4 +180,16 @@ export default class database {
     const result = await this.db.get(query, [id]);
     return result !== undefined;
   };
+
+  updateProductSize = async (id, xs, s, m, l, xl, xxl) => {
+    const query =
+      "UPDATE sizes SET xs = ?, s = ?, m = ?, l = ?, xl = ?, xxl = ? WHERE id = ?";
+    await this.db.run(query, [xs, s, m, l, xl, xxl, id]);
+  };
+
+  getSizes = async(id) => {
+    const query = "SELECT * FROM sizes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    return result;
+  }
 }

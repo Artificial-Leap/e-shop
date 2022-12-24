@@ -43,6 +43,11 @@ app.get("/products", async (req, res) => {
   res.send(products);
 });
 
+app.get("/sizes", async(req, res) => {
+  const sizes = await database.instance.getSizes();
+  res.send(sizes);
+});
+
 app.post("/checkout", async (req, res) => {
   const { email } = req.body;
   //update products with the current new availability
