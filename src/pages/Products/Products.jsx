@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { getProducts } from "../../redux/productsSlice";
-import { SERVER_URL } from "../../constants";
-
 import "./styles/Products.css";
 
 const Products = () => {
@@ -12,13 +10,8 @@ const Products = () => {
   const { products } = useSelector((state) => state.products);
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await axios.get(SERVER_URL + "/products");
+      const res = await axios.get("/products");
       dispatch(getProducts(res.data));
-
-      const res2 = await axios.get(SERVER_URL + "/sizes", {
-        responseType: "json",
-      });
-      console.log(res2.data);
     };
     fetchProducts();
   }, []);
@@ -38,39 +31,10 @@ const Products = () => {
                   desc={elem.shortDesc}
                   price={elem.price}
                   id={elem.id}
+                  stock={elem.stock}
                 />
               );
             })}
-          {/* <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="850"
-          />
-          <ProductCard
-            img="/assets/test-item.webp"
-            name="Sain Laurent"
-            desc="Logo printed textured hoodie"
-            price="850"
-          /> */}
         </div>
       </div>
     </div>

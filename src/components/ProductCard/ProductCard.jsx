@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { addToCart, removeFromCart } from "../../redux/productsSlice";
 import "./ProductCard.css";
 
-const ProductCard = ({ img, name, desc, price, id }) => {
+const ProductCard = ({ img, name, desc, price, id, stock }) => {
   const [addedToCart, setAddedToCart] = useState(false);
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.products);
   const addToCartFunc = () => {
-    dispatch(addToCart({ img, name, desc, price, id, quantity: 1 }));
+    dispatch(
+      addToCart({ img, name, desc, price, id, quantity: 1, size: "s", stock })
+    );
     setAddedToCart(true);
   };
   const removeFromCartFunc = () => {

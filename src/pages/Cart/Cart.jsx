@@ -55,7 +55,7 @@ const Cart = () => {
 
 export default Cart;
 
-const CartItem = ({ img, price, name, id, quantity }) => {
+const CartItem = ({ img, price, name, id, quantity, size, stock }) => {
   const dispatch = useDispatch();
   const changeQuantityFunc = (e) => {
     dispatch(changeQuantity({ id, quantity: e.target.value }));
@@ -67,7 +67,9 @@ const CartItem = ({ img, price, name, id, quantity }) => {
         <div className="cart-desc">
           <h4>{name}</h4>
           <p>Color: White</p>
-          <p>Size: S</p>
+          <p>
+            Size: <span style={{ textTransform: "uppercase" }}> {size}</span>
+          </p>
           <p>In Stock</p>
         </div>
       </div>
@@ -78,9 +80,15 @@ const CartItem = ({ img, price, name, id, quantity }) => {
       <div className="item-col">
         <h5>Quantity</h5>
         <select onChange={changeQuantityFunc} value={quantity}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+          {Array(stock)
+            .fill(false)
+            .map((elem, idx) => {
+              return (
+                <option key={idx + "stock" + id} value={idx + 1}>
+                  {idx + 1}
+                </option>
+              );
+            })}
         </select>
       </div>
       <div className="item-col">

@@ -32,11 +32,23 @@ export const productsSlice = createSlice({
         }
       });
     },
+    changeSize: (state, action) => {
+      state.cart.forEach((elem) => {
+        if (elem.id === action.payload.id) {
+          elem.size = action.payload.size;
+        }
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart, getProducts, changeQuantity } =
-  productsSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  getProducts,
+  changeQuantity,
+  changeSize,
+} = productsSlice.actions;
 
 export default productsSlice.reducer;
