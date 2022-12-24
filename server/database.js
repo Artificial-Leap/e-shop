@@ -187,8 +187,8 @@ export default class database {
     await this.db.run(query, [xs, s, m, l, xl, xxl, id]);
   };
 
-  getSizes = async(id) => {
-    const query = "SELECT * FROM sizes WHERE id = ?";
+  getSizes = async() => {
+    const query = "SELECT * FROM sizes";
     const result = await this.db.get(query, [id]);
     return result;
   }
