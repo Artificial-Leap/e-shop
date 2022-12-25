@@ -12,7 +12,7 @@ app.use(json({ limit: "50mb" }));
 app.use(express.static("files"));
 app.use("/static", express.static("public"));
 
-const port = 3002;
+const port = 80;
 
 app.post("/", (req, res) => {
   const body = req.body;
