@@ -11,11 +11,14 @@ import Map3D from "./pages/Map/Map3D";
 import Products from "./pages/Products/Products";
 import ProductView from "./pages/ProductView/ProductView";
 import SignUp from "./pages/SignUp/SignUp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   axios.defaults.baseURL = SERVER_URL;
   return (
     <div className="App">
+      <ToastContainer />
       <Header />
       <Chatbot />
       <Routes>

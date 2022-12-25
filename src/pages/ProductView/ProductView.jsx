@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   addToCart,
   changeQuantity,
@@ -137,10 +138,15 @@ const ProductView = () => {
           ) : (
             <button
               style={{
-                pointerEvents: selectedSize.size ? "all" : "none",
                 opacity: selectedSize.size ? "1" : "0.6",
               }}
-              onClick={addToCartFunc}
+              onClick={() => {
+                if (selectedSize.size) {
+                  addToCartFunc();
+                } else {
+                  toast.warn("Please select a size");
+                }
+              }}
               className="login"
             >
               Add to Cart
