@@ -10,7 +10,22 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.cart.push(action.payload);
+      let sizeAlreadyAdded = false;
+      let idxSize = null;
+      state.cart.forEach((elem, idx) => {
+        if (
+          elem.id === action.payload.id &&
+          elem.size === action.payload.size
+        ) {
+          idxSize = idx;
+          sizeAlreadyAdded = true;
+        }
+      });
+      if (sizeAlreadyAdded) {
+        state.cart[idxSize].quantity += 1;
+      } else {
+        state.cart.push(action.payload);
+      }
     },
     removeFromCart: (state, action) => {
       const filtered = state.cart.filter((elem) => {
@@ -27,7 +42,10 @@ export const productsSlice = createSlice({
 
     changeQuantity: (state, action) => {
       state.cart.forEach((elem) => {
-        if (elem.id === action.payload.id) {
+        if (
+          elem.id === action.payload.id &&
+          elem.size === action.payload.size
+        ) {
           elem.quantity = action.payload.quantity;
         }
       });

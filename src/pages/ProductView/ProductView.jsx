@@ -26,13 +26,13 @@ const ProductView = () => {
         setProduct(elem);
       }
     });
-    cart.forEach((elem) => {
-      if (elem.id === id) {
-        setIsAddedToCart(true);
-        setQuantity(parseFloat(elem.quantity));
-        setSelectedSize({ size: elem.size, stock: elem.stock });
-      }
-    });
+    // cart.forEach((elem) => {
+    //   if (elem.id === id) {
+    //     setIsAddedToCart(true);
+    //     setQuantity(parseFloat(elem.quantity));
+    //     setSelectedSize({ size: elem.size, stock: elem.stock });
+    //   }
+    // });
     sizes();
   }, []);
   //setting the sizes Accordingly
@@ -64,12 +64,6 @@ const ProductView = () => {
     setIsAddedToCart(true);
     setQuantity(1);
   };
-  // useEffect(() => {
-  //   if (quantity === 0) {
-  //     dispatch(removeFromCart(product.id));
-  //     setIsAddedToCart(false);
-  //   }
-  // }, [quantity]);
 
   return (
     <div className="container">
@@ -88,7 +82,7 @@ const ProductView = () => {
                   key={idx + "size"}
                   onClick={() => {
                     setSelectedSize(elem);
-                    dispatch(changeSize({ id: product.id, size: elem.size }));
+                    // dispatch(changeSize({ id: product.id, size: elem.size }));
                   }}
                   className={`size-btn ${
                     selectedSize.size === elem.size ? "selected-size" : ""
@@ -110,7 +104,11 @@ const ProductView = () => {
                     } else return prev;
                   });
                   dispatch(
-                    changeQuantity({ id: product.id, quantity: quantity + 1 })
+                    changeQuantity({
+                      id: product.id,
+                      quantity: quantity + 1,
+                      size: selectedSize.size,
+                    })
                   );
                 }}
               >
@@ -128,6 +126,7 @@ const ProductView = () => {
                     changeQuantity({
                       id: product.id,
                       quantity: quantity - 1,
+                      size: selectedSize.size,
                     })
                   );
                 }}

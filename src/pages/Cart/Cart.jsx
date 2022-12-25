@@ -58,7 +58,7 @@ export default Cart;
 const CartItem = ({ img, price, name, id, quantity, size, stock }) => {
   const dispatch = useDispatch();
   const changeQuantityFunc = (e) => {
-    dispatch(changeQuantity({ id, quantity: e.target.value }));
+    dispatch(changeQuantity({ id, quantity: e.target.value, size: size }));
   };
   return (
     <div className="cart-item">
