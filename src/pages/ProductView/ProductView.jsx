@@ -26,13 +26,7 @@ const ProductView = () => {
         setProduct(elem);
       }
     });
-    // cart.forEach((elem) => {
-    //   if (elem.id === id) {
-    //     setIsAddedToCart(true);
-    //     setQuantity(parseFloat(elem.quantity));
-    //     setSelectedSize({ size: elem.size, stock: elem.stock });
-    //   }
-    // });
+
     sizes();
   }, []);
   //setting the sizes Accordingly
@@ -65,6 +59,19 @@ const ProductView = () => {
     setQuantity(1);
   };
 
+  useEffect(() => {
+    if (quantity <= 0) {
+      setSelectedSize({});
+      setIsAddedToCart(false);
+      dispatch(
+        removeFromCart({
+          id: product.id,
+          size: selectedSize.size,
+        })
+      );
+    }
+  }, [quantity]);
+
   return (
     <div className="container">
       <div className="product-div">
@@ -82,10 +89,20 @@ const ProductView = () => {
                   key={idx + "size"}
                   onClick={() => {
                     setSelectedSize(elem);
-                    // dispatch(changeSize({ id: product.id, size: elem.size }));
+                    // dispatch(
+                    //   changeSize({
+                    //     id: product.id,
+                    //     oldSize: selectedSize.size,
+                    //     newSize: elem.size,
+                    //   })
+                    // );
                   }}
                   className={`size-btn ${
                     selectedSize.size === elem.size ? "selected-size" : ""
+                  } ${
+                    selectedSize.size !== null && isAddedToCart === false
+                      ? ""
+                      : "not-selected-size"
                   }`}
                 >
                   {elem.size}
@@ -120,8 +137,11 @@ const ProductView = () => {
                   setQuantity((prev) => {
                     if (prev > 0) {
                       return prev - 1;
-                    } else return prev;
+                    } else {
+                      return prev;
+                    }
                   });
+
                   dispatch(
                     changeQuantity({
                       id: product.id,

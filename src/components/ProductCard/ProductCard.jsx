@@ -15,7 +15,7 @@ const ProductCard = ({ img, name, desc, price, id, stock }) => {
     setAddedToCart(true);
   };
   const removeFromCartFunc = () => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart({ id, size: "s" }));
     setAddedToCart(false);
   };
   useEffect(() => {

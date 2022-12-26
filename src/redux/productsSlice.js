@@ -29,7 +29,7 @@ export const productsSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       const filtered = state.cart.filter((elem) => {
-        if (elem.id !== action.payload) {
+        if (elem.id !== action.payload && elem.size !== action.payload.size) {
           return elem;
         }
       });
@@ -52,8 +52,11 @@ export const productsSlice = createSlice({
     },
     changeSize: (state, action) => {
       state.cart.forEach((elem) => {
-        if (elem.id === action.payload.id) {
-          elem.size = action.payload.size;
+        if (
+          elem.id === action.payload.id &&
+          elem.size === action.payload.oldSize
+        ) {
+          elem.size = action.payload.newSize;
         }
       });
     },
