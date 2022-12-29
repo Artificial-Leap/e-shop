@@ -97,6 +97,7 @@ nav {
   font-size: 16px;
   text-decoration: none;
   cursor: pointer;
+  line-height: 1;
   transition: all 0.3s ease-in-out;
 }
 .login:hover {
@@ -145,10 +146,12 @@ nav {
     color: white;
   }
   .nav-links .login {
-    display: block;
+    display: flex;
     border-color: white;
     color: white;
     height: 40px;
+    justify-content: center;
+    align-items: center;
     width: 100%;
   }
   .nav-links .login:hover {

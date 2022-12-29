@@ -59,18 +59,18 @@ const ProductView = () => {
     setQuantity(1);
   };
 
-  useEffect(() => {
-    if (quantity <= 0) {
-      setSelectedSize({});
-      setIsAddedToCart(false);
-      dispatch(
-        removeFromCart({
-          id: product.id,
-          size: selectedSize.size,
-        })
-      );
-    }
-  }, [quantity]);
+  // useEffect(() => {
+  //   if (quantity <= 0) {
+  //     setSelectedSize({});
+  //     setIsAddedToCart(false);
+  //     dispatch(
+  //       removeFromCart({
+  //         id: product.id,
+  //         size: selectedSize.size,
+  //       })
+  //     );
+  //   }
+  // }, [quantity]);
 
   return (
     <div className="container">
@@ -89,21 +89,10 @@ const ProductView = () => {
                   key={idx + "size"}
                   onClick={() => {
                     setSelectedSize(elem);
-                    // dispatch(
-                    //   changeSize({
-                    //     id: product.id,
-                    //     oldSize: selectedSize.size,
-                    //     newSize: elem.size,
-                    //   })
-                    // );
                   }}
                   className={`size-btn ${
                     selectedSize.size === elem.size ? "selected-size" : ""
-                  } ${
-                    selectedSize.size !== null && isAddedToCart === false
-                      ? ""
-                      : "not-selected-size"
-                  }`}
+                  } `}
                 >
                   {elem.size}
                 </button>
@@ -111,7 +100,7 @@ const ProductView = () => {
             })}
           </div>
 
-          {isAddedToCart ? (
+          {/* {isAddedToCart ? (
             <div className="quantity-div">
               <button
                 onClick={() => {
@@ -170,7 +159,23 @@ const ProductView = () => {
             >
               Add to Cart
             </button>
-          )}
+          )} */}
+          <button
+            style={{
+              opacity: selectedSize.size ? "1" : "0.6",
+            }}
+            onClick={() => {
+              if (selectedSize.size) {
+                addToCartFunc();
+                toast.success(product.name + " Added to cart");
+              } else {
+                toast.warn("Please select a size");
+              }
+            }}
+            className="login"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

@@ -1,33 +1,19 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { addToCart, removeFromCart } from "../../redux/productsSlice";
+import SelectSizeModal from "../SelectSizeModal/SelectSizeModal";
 import "./ProductCard.css";
 
-const ProductCard = ({ img, name, desc, price, id, stock }) => {
-  const [addedToCart, setAddedToCart] = useState(false);
-  const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.products);
-  const addToCartFunc = () => {
-    dispatch(
-      addToCart({ img, name, desc, price, id, quantity: 1, size: "s", stock })
-    );
-    setAddedToCart(true);
-  };
-  const removeFromCartFunc = () => {
-    dispatch(removeFromCart({ id, size: "s" }));
-    setAddedToCart(false);
-  };
-  useEffect(() => {
-    cart.forEach((elem) => {
-      if (elem.id === id) {
-        setAddedToCart(true);
-      }
-    });
-  }, []);
+const ProductCard = ({ img, name, desc, price, id }) => {
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="product-card">
+      {modal && (
+        <SelectSizeModal
+          setModal={setModal}
+          product={{ image: img, name, description: desc, price, id }}
+        />
+      )}
       <div className="product-img-div">
         <img src={img} alt="" />
       </div>
@@ -39,15 +25,10 @@ const ProductCard = ({ img, name, desc, price, id, stock }) => {
         </div>
         <p>${price}</p>
         <div className="btn-div">
-          {addedToCart ? (
-            <button onClick={removeFromCartFunc} className="login">
-              Remove
-            </button>
-          ) : (
-            <button onClick={addToCartFunc} className="login">
-              Add to cart
-            </button>
-          )}
+          <button onClick={() => setModal(true)} className="login">
+            Add to cart
+          </button>
+
           <Link to={`/${id}`} className="login">
             Quick View
           </Link>

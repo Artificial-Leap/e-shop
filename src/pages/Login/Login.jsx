@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../redux/userSlice";
 import "./Login.css";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
     email: "",
     password: "",
@@ -24,9 +28,11 @@ const Login = () => {
       .catch((res) => {
         return { status: 401, message: "Unauthorized" };
       });
+    console.log(registering.data);
     if (registering.data.status === "ok") {
-      alert("Successfully Logged In");
+      dispatch(login(registering.data.user));
       setInputValues({ email: "", password: "" });
+      navigate("/");
     } else {
       alert("Error");
     }
