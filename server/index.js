@@ -13,6 +13,7 @@ app.use(express.static("files"));
 app.use("/static", express.static("public"));
 
 const port = 80;
+const localEmail = "test@gmail.com";
 
 app.post("/", (req, res) => {
   const body = req.body;
@@ -43,13 +44,27 @@ app.get("/products", async (req, res) => {
   res.send(products);
 });
 
-app.get("/sizes", async(req, res) => {
+app.get("/sizes", async (req, res) => {
   const sizes = await database.instance.getSizes();
   res.send(sizes);
 });
 
 app.post("/checkout", async (req, res) => {
-  const { email } = req.body;
+  const {
+    email,
+    name,
+    content,
+    address,
+    phoneNumber,
+    paymentMethod,
+    paymentInfo,
+    shippingMethod,
+    gift,
+    invoice,
+    vatid,
+    invoiceAddress,
+  } = req.body;
+
   //update products with the current new availability
   //check again if all products are available, also cart item count
   //proceed to payment
@@ -57,8 +72,45 @@ app.post("/checkout", async (req, res) => {
   //add the delivery to the database with a custom Delivery id (character/number 8 length)
   //send the response message (ok if the order is done, otherwise error message)
   //send to the orders' email the new order with all products and shipment address
+
+  let _content = "";
+  for (let i = 0; i < content.length; i++) {
+    if (!(await database.instance.productSizeExists(content[i].id))) {
+      //size doesn't exist
+    }
+
+    _content +=
+      "id: " +
+      content[i].id +
+      ", size: " +
+      content[i].size +
+      ", quantity: " +
+      content[i].quantity +
+      " | ";
+
+    await database.instance.removeProductSize(
+      content[i].id,
+      content[i].size,
+      content[i].quantity
+    );
+  }
+
+  await database.instance.addOrder(
+    email,
+    _content,
+    name,
+    address,
+    phoneNumber,
+    paymentMethod,
+    paymentInfo,
+    shippingMethod,
+    gift,
+    invoice,
+    vatid,
+    invoiceAddress
+  );
   emailer.instance.sendEmail(email, "Order Confirmation", "");
-  emailer.instance.sendEmail("our email", "Order Received", "");
+  emailer.instance.sendEmail(localEmail, "Order Received", "");
 });
 
 app.post("/contact", async (req, res) => {

@@ -1,9 +1,10 @@
 import "./SignUp.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
     name: "",
     email: "",
@@ -30,13 +31,13 @@ const SignUp = () => {
         return { status: 401, message: "Unauthorized" };
       });
     if (registering.data.status === "ok") {
-      alert("Successfully Registered");
       setInputValues({
         name: "",
         email: "",
         password: "",
         confirmPassword: "",
       });
+      navigate("/login");
     } else {
       alert("Error");
     }

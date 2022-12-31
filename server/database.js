@@ -29,6 +29,9 @@ export default class database {
       await this.db.run(
         "CREATE TABLE sizes(id text, xs int, s int, m int, l int, xl int, xxl int)"
       );
+      await this.db.run(
+        "CREATE TABLE orders(id text, email text, content text, name text, address text, phoneNumber text, paymentMethod text, paymentInfo text, shippingMethod text, gift text, invoice text, vatid text, invoiceAddress text, status text, date text)"
+      );
       await this.addProduct(
         "3dc7fiyzlfmkfqseqam",
         "bag",
@@ -49,7 +52,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/bag.png",
         "true"
       );
-      await this.updateProductSize("3dc7fiyzlfmkfqseqam", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "3dc7fiyzlfmkfqseqam",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
       await this.addProduct(
         "aoe8wvdxvrkfqsew67",
         "shirt",
@@ -60,7 +71,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shirt.png",
         "true"
       );
-      await this.updateProductSize("aoe8wvdxvrkfqsew67", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "aoe8wvdxvrkfqsew67",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
       await this.addProduct(
         "bmfrurdkswtkfqsf15j",
         "shorts",
@@ -71,7 +90,15 @@ export default class database {
         "http://35.217.24.65:8081/http://35.217.24.65:3002/static/shorts.png",
         "true"
       );
-      await this.updateProductSize("bmfrurdkswtkfqsf15j", 10, 10, 10, 10, 10, 10);
+      await this.updateProductSize(
+        "bmfrurdkswtkfqsf15j",
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      );
     }
   };
 
@@ -186,10 +213,93 @@ export default class database {
       "UPDATE sizes SET xs = ?, s = ?, m = ?, l = ?, xl = ?, xxl = ? WHERE id = ?";
     await this.db.run(query, [xs, s, m, l, xl, xxl, id]);
   };
+  productSizeExists = async (id, size, amount) => {
+    const query = "SELECT * FROM sizes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
 
-  getSizes = async() => {
+    if (result === undefined) {
+      return false;
+    }
+    if (result[size] < amount) {
+      return false;
+    }
+    return true;
+  };
+
+  removeProductSize = async (id, size, amount) => {
+    const query = "SELECT * FROM sizes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    const newAmount = result[size] - amount;
+    const query2 = "UPDATE sizes SET " + size + " = ? WHERE id = ?";
+    await this.db.run(query2, [newAmount, id]);
+  };
+
+  getSizes = async () => {
     const query = "SELECT * FROM sizes";
     const result = await this.db.get(query, [id]);
     return result;
-  }
+  };
+
+  addOrder = async (
+    email,
+    content,
+    name,
+    address,
+    phoneNumber,
+    paymentMethod,
+    paymentInfo,
+    shippingMethod,
+    gift,
+    invoice,
+    vatid,
+    invoiceAddress
+  ) => {
+    const date = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const status = "created";
+    const id = await this.makeOrderId();
+    const query =
+      "INSERT INTO orders (id, email, content, name, address, phoneNumber, paymentMethod, paymentInfo, shippingMethod, gift, invoice, vatid, invoiceAddress, status, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    await this.db.run(query, [
+      id,
+      email,
+      content,
+      name,
+      address,
+      phoneNumber,
+      paymentMethod,
+      paymentInfo,
+      shippingMethod,
+      gift,
+      invoice,
+      vatid,
+      invoiceAddress,
+      status,
+      date,
+    ]);
+  };
+
+  orderIdExists = async (id) => {
+    const query = "SELECT * FROM orders WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    return result !== undefined;
+  };
+
+  makeOrderId = async () => {
+    const id = Math.floor(Math.random() * 1000000000);
+    if (await this.orderIdExists(id)) {
+      return await this.makeOrderId();
+    }
+    return id;
+  };
+
+  updateOrderStatus = async (id, status) => {
+    const query = "UPDATE orders SET status = ? WHERE id = ?";
+    await this.db.run(query, [status, id]);
+  };
+
+  getOrder = async (id) => {
+    const query = "SELECT * FROM orders WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    return result;
+  };
 }
