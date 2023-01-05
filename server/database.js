@@ -236,6 +236,11 @@ export default class database {
 
   getSizes = async () => {
     const query = "SELECT * FROM sizes";
+    const result = await this.db.get(query);
+    return result;
+  };
+  getSizesFor = async (id) => {
+    const query = "SELECT * FROM sizes WHERE id = ?";
     const result = await this.db.get(query, [id]);
     return result;
   };

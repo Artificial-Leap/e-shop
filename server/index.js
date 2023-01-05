@@ -1,4 +1,6 @@
 import express, { json } from "express";
+import https from 'https'
+import * as fs from 'fs'
 import database from "./database.js";
 import emailer from "./emailer.js";
 import nfts from "./nfts.js";
@@ -11,6 +13,13 @@ const app = express();
 app.use(json({ limit: "50mb" }));
 app.use(express.static("files"));
 app.use("/static", express.static("public"));
+
+//expres
+if (fs.existsSync('cert.pem') && fs.existsSync('key.pem')){
+  const privKey = fs.readFileSync("./key.pem", "utf8");
+  const certificate = fs.readFileSync("./cert.pem", "utf8");
+}
+
 
 const port = 80;
 const localEmail = "test@gmail.com";
@@ -46,6 +55,12 @@ app.get("/products", async (req, res) => {
 
 app.get("/sizes", async (req, res) => {
   const sizes = await database.instance.getSizes();
+  res.send(sizes);
+});
+
+app.get("/sizes_for", async (req, res) => {
+  const id = req.query.id;
+  const sizes = await database.instance.getSizesFor(id);
   res.send(sizes);
 });
 
