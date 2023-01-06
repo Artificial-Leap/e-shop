@@ -3,7 +3,7 @@ import "./Checkout.css";
 import CryptoPayment from "./CryptoPayment";
 import PaypalPayment from "./PaypalPayment";
 
-const Checkout = () => {
+const Checkout = ({ language }) => {
   const [inputValues, setInputValues] = useState({
     name: "",
     address: "",
@@ -23,67 +23,67 @@ const Checkout = () => {
   return (
     <div className="container">
       <div className="login-div checkout-div">
-        <h2>Checkout</h2>
+        <h2>{language.btn}</h2>
         <form>
           <div className="input-div-login">
-            <label htmlFor="name">Full name</label>
+            <label htmlFor="name">{language.name}</label>
             <input
               onChange={changeHandler}
               value={inputValues.name}
               type="text"
               name="name"
-              placeholder="Full Name"
+              placeholder={language.name}
               id="name"
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="address">Shipping Address</label>
+            <label htmlFor="address">{language.address}</label>
             <input
               onChange={changeHandler}
               value={inputValues.address}
               type="text"
               name="address"
-              placeholder="Shipping Address"
+              placeholder={language.address}
               id="address"
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="number">Phone Number</label>
+            <label htmlFor="number">{language.number}</label>
             <input
               onChange={changeHandler}
               type="text"
               value={inputValues.number}
               name="number"
-              placeholder="Phone Number"
+              placeholder={language.number}
               id="number"
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="method">Shipping Method</label>
+            <label htmlFor="method">{language.method[0]}</label>
             <select
               onChange={changeHandler}
               value={inputValues.method}
               name="method"
               id="method"
             >
-              <option value="Normal">Normal</option>
-              <option value="Fast">Fast</option>
+              <option value="Normal">{language.method[1]}</option>
+              <option value="Fast">{language.method[2]}</option>
             </select>
           </div>
           <div className="input-div-login">
-            <label htmlFor="gift">This is a gift?</label>
+            <label htmlFor="gift">{language.gift[0]}</label>
             <select
               onChange={changeHandler}
               value={inputValues.gift}
               name="gift"
               id="gift"
             >
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option value="Yes">{language.gift[1]}</option>
+              <option value="No">{language.gift[2]}</option>
             </select>
           </div>
           <div className="input-div-login">
-            <label htmlFor="payment">Payment Method</label>
+            <label htmlFor="payment">{language.payment}</label>
             <select
               value={inputValues.payment}
               onChange={changeHandler}
@@ -98,10 +98,10 @@ const Checkout = () => {
           {inputValues.payment === "Paypal" && <PaypalPayment />}
           {inputValues.payment === "Crypto" && <CryptoPayment amount={0.001} />}
           <h3 className="total-amount">
-            Total Amount: <strong>$40000</strong>
+            {language.total}: <strong>$40000</strong>
           </h3>
           <button type="submit" onClick={submitHandler} className="login">
-            Checkout
+            {language.btn}
           </button>
         </form>
       </div>

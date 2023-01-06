@@ -13,6 +13,8 @@ import ProductView from "./pages/ProductView/ProductView";
 import SignUp from "./pages/SignUp/SignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { translation } from "./translation";
 
 function App() {
   axios.defaults.baseURL = SERVER_URL;
@@ -20,27 +22,53 @@ function App() {
   const queryParameters = new URLSearchParams(window.location.search);
   const type = queryParameters.get("type");
   const id = queryParameters.get("id");
-
-  console.log("type:", type, "name:", id);
   //http://localhost:3000/?type=qr_code&id=tt
-  
+  const { language } = useSelector((state) => state.language);
   return (
     <div className="App">
       <ToastContainer />
-      <Header />
+      <Header language={translation[language].header} />
       <Chatbot />
       {type === "qr_code" ? (
         <div>QR Code ID: {id}</div>
       ) : (
         <Routes>
-          <Route path="/" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/map" element={<Map3D />} />
-          <Route path="/:id" element={<ProductView />} />
+          <Route
+            path="/"
+            element={<Products language={translation[language].products} />}
+          />
+          <Route
+            path="/cart"
+            element={<Cart language={translation[language].cart} />}
+          />
+          <Route
+            path="/login"
+            element={<Login language={translation[language].login} />}
+          />
+          <Route
+            path="/sign-up"
+            element={<SignUp language={translation[language].signup} />}
+          />
+          <Route
+            path="/contact"
+            element={<Contact language={translation[language].contact} />}
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout language={translation[language].checkout} />}
+          />
+          <Route
+            path="/map"
+            element={<Map3D language={translation[language].map} />}
+          />
+          <Route
+            path="/:id"
+            element={
+              <ProductView
+                language={translation[language].products.addtocart}
+              />
+            }
+          />
         </Routes>
       )}
     </div>

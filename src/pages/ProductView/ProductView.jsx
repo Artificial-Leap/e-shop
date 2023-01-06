@@ -11,14 +11,12 @@ import {
 } from "../../redux/productsSlice";
 import "./ProductView.css";
 
-const ProductView = () => {
+const ProductView = ({ language }) => {
   const dispatch = useDispatch();
   const { products, cart } = useSelector((state) => state.products);
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState("");
   const [product, setProduct] = useState({});
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
-  const [quantity, setQuantity] = useState(0);
   const [allSizes, setAllSizes] = useState([]);
   useEffect(() => {
     products.forEach((elem) => {
@@ -32,7 +30,7 @@ const ProductView = () => {
   //setting the sizes Accordingly
   const sizes = async () => {
     let sizesArr = [];
-    const res = await axios.get("/sizes");
+    const res = await axios.get(`/sizes?id=${id}`);
     for (const property in res.data) {
       if (property !== "id") {
         sizesArr.push({ size: property, stock: res.data[property] });
@@ -55,8 +53,6 @@ const ProductView = () => {
         stock: selectedSize.stock,
       })
     );
-    setIsAddedToCart(true);
-    setQuantity(1);
   };
 
   // useEffect(() => {
@@ -100,66 +96,6 @@ const ProductView = () => {
             })}
           </div>
 
-          {/* {isAddedToCart ? (
-            <div className="quantity-div">
-              <button
-                onClick={() => {
-                  setQuantity((prev) => {
-                    if (prev < selectedSize.stock) {
-                      return prev + 1;
-                    } else return prev;
-                  });
-                  dispatch(
-                    changeQuantity({
-                      id: product.id,
-                      quantity: quantity + 1,
-                      size: selectedSize.size,
-                    })
-                  );
-                }}
-              >
-                +
-              </button>
-              <p>{quantity}</p>
-              <button
-                onClick={() => {
-                  setQuantity((prev) => {
-                    if (prev > 0) {
-                      return prev - 1;
-                    } else {
-                      return prev;
-                    }
-                  });
-
-                  dispatch(
-                    changeQuantity({
-                      id: product.id,
-                      quantity: quantity - 1,
-                      size: selectedSize.size,
-                    })
-                  );
-                }}
-              >
-                -
-              </button>
-            </div>
-          ) : (
-            <button
-              style={{
-                opacity: selectedSize.size ? "1" : "0.6",
-              }}
-              onClick={() => {
-                if (selectedSize.size) {
-                  addToCartFunc();
-                } else {
-                  toast.warn("Please select a size");
-                }
-              }}
-              className="login"
-            >
-              Add to Cart
-            </button>
-          )} */}
           <button
             style={{
               opacity: selectedSize.size ? "1" : "0.6",
@@ -174,7 +110,7 @@ const ProductView = () => {
             }}
             className="login"
           >
-            Add to Cart
+            {language}
           </button>
         </div>
       </div>

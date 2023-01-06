@@ -5,11 +5,11 @@ import BaseCharacter from "./BaseCharacter";
 import ThreeModel from "./ThreeModel";
 import BasicScene from "./BaseScene";
 
-const Map3D = () => {
+const Map3D = ({ language }) => {
   return (
     <div className="container">
       <div className="contact-div login-div">
-        <h1 className="title">3D Map</h1>
+        <h1 className="title">{language.heading}</h1>
 
         <BasicScene>
           <BaseBox

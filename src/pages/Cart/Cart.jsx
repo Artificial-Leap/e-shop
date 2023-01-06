@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { changeQuantity } from "../../redux/productsSlice";
 import "./Cart.css";
 
-const Cart = () => {
+const Cart = ({ language }) => {
   const { cart } = useSelector((state) => state.products);
   const [subTotal, setSubTotal] = useState(0);
   useEffect(() => {
@@ -19,32 +19,32 @@ const Cart = () => {
   return (
     <div className="container">
       <div className="cart-div">
-        <h2>Cart</h2>
+        <h2>{language.heading}</h2>
         <div className="main-cart">
           <div className="cart-left">
             {cart?.map((elem) => {
-              return <CartItem {...elem} key={elem.id} />;
+              return <CartItem language={language} {...elem} key={elem.id} />;
             })}
           </div>
           <div className="cart-right">
-            <h3>Summary</h3>
+            <h3>{language.summary}</h3>
             <div className="total-row">
-              <p>Subtotal</p>
+              <p>{language.sub}</p>
               <p>${subTotal}</p>
             </div>
             <div className="total-row">
-              <p>Delivery</p>
+              <p>{language.delivery}</p>
               <p>$12</p>
             </div>
             <hr />
             <div className="total-row">
-              <p>Total</p>
+              <p>{language.total}</p>
               <p>
                 EUR <strong>${subTotal + 12}</strong>
               </p>
             </div>
             <Link to={"/checkout"} className="checkout">
-              Go to Checkout
+              {language.btn}
             </Link>
           </div>
         </div>
@@ -55,7 +55,16 @@ const Cart = () => {
 
 export default Cart;
 
-const CartItem = ({ img, price, name, id, quantity, size, stock }) => {
+const CartItem = ({
+  img,
+  price,
+  name,
+  id,
+  quantity,
+  size,
+  stock,
+  language,
+}) => {
   const dispatch = useDispatch();
   const changeQuantityFunc = (e) => {
     dispatch(changeQuantity({ id, quantity: e.target.value, size: size }));
@@ -66,19 +75,20 @@ const CartItem = ({ img, price, name, id, quantity, size, stock }) => {
         <img src={img} alt="" />
         <div className="cart-desc">
           <h4>{name}</h4>
-          <p>Color: White</p>
+          <p>{language.color}: White</p>
           <p>
-            Size: <span style={{ textTransform: "uppercase" }}> {size}</span>
+            {language.size}:{" "}
+            <span style={{ textTransform: "uppercase" }}> {size}</span>
           </p>
-          <p>In Stock</p>
+          <p>{language.stock}</p>
         </div>
       </div>
       <div className="item-col">
-        <h5>Each</h5>
+        <h5>{language.each}</h5>
         <h3>${price}</h3>
       </div>
       <div className="item-col">
-        <h5>Quantity</h5>
+        <h5>{language.quantity}</h5>
         <select onChange={changeQuantityFunc} value={quantity}>
           {Array(stock)
             .fill(false)
@@ -92,7 +102,7 @@ const CartItem = ({ img, price, name, id, quantity, size, stock }) => {
         </select>
       </div>
       <div className="item-col">
-        <h5>Total</h5>
+        <h5>{language.total}</h5>
         <h3>${price * quantity}</h3>
       </div>
     </div>

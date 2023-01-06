@@ -5,7 +5,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import { getProducts } from "../../redux/productsSlice";
 import "./styles/Products.css";
 
-const Products = () => {
+const Products = ({ language }) => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
   useEffect(() => {
@@ -19,7 +19,7 @@ const Products = () => {
   return (
     <div className="container products-wrapp">
       <div className="products-div">
-        <h1 className="title">Our Products</h1>
+        <h1 className="title">{language.heading}</h1>
         <div className="products-grid">
           {products &&
             products.map((elem) => {
@@ -32,6 +32,7 @@ const Products = () => {
                   price={elem.price}
                   id={elem.id}
                   stock={elem.stock}
+                  language={language}
                 />
               );
             })}

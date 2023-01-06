@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-const SignUp = () => {
+const SignUp = ({ language }) => {
   const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
     name: "",
@@ -46,56 +46,56 @@ const SignUp = () => {
   return (
     <div className="container">
       <div className="login-div">
-        <h2>Sign Up</h2>
+        <h2>{language.heading}</h2>
         <form>
           <div className="input-div-login">
-            <label htmlFor="Username">Username</label>
+            <label htmlFor="Username">{language.username}</label>
             <input
               value={inputValues.name}
               onChange={changeHandler}
               name="name"
               type="Username"
               id="Username"
-              placeholder="Username"
+              placeholder={language.username}
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{language.email}</label>
             <input
               value={inputValues.email}
               onChange={changeHandler}
               type="email"
               name="email"
               id="email"
-              placeholder="Email"
+              placeholder={language.email}
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="Password">Password</label>
+            <label htmlFor="Password">{language.password}</label>
             <input
               value={inputValues.password}
               onChange={changeHandler}
               type="Password"
               name="password"
               id="Password"
-              placeholder="Password"
+              placeholder={language.password}
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">{language.cpassword}</label>
             <input
               value={inputValues.confirmPassword}
               onChange={changeHandler}
               type="password"
               name="confirmPassword"
               id="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder={language.cpassword}
             />
           </div>
           <button onClick={submitHandler} type="submit" className="login">
-            Register
+            {language.btn}
           </button>
-          <Link to={"/login"}>Already a member?</Link>
+          <Link to={"/login"}>{language.mem}</Link>
         </form>
       </div>
     </div>

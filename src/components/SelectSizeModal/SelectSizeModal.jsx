@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../redux/productsSlice";
 import "./SelectSizeModal.css";
 
-const SelectSizeModal = ({ setModal, product }) => {
+const SelectSizeModal = ({ setModal, product, language }) => {
   const dispatch = useDispatch();
   const [allSizes, setAllSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
@@ -45,9 +45,9 @@ const SelectSizeModal = ({ setModal, product }) => {
 
   return (
     <>
-      <div className="overlay"></div>
+      <div onClick={() => setModal(false)} className="overlay"></div>
       <div className="select-size">
-        <h3>Select Size</h3>
+        <h3>{language.select}</h3>
         <div className="sizes-div">
           {allSizes?.map((elem, idx) => {
             return (
@@ -79,7 +79,7 @@ const SelectSizeModal = ({ setModal, product }) => {
           }}
           className="login"
         >
-          Add to Cart
+          {language.addtocart}
         </button>
       </div>
     </>

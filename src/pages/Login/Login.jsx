@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../redux/userSlice";
 import "./Login.css";
 
-const Login = () => {
+const Login = ({ language }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
@@ -40,34 +40,34 @@ const Login = () => {
   return (
     <div className="container">
       <div className="login-div">
-        <h2>Sign In</h2>
+        <h2>{language.heading}</h2>
         <form>
           <div className="input-div-login">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{language.email}</label>
             <input
               name="email"
               onChange={changeHandler}
               type="email"
               id="email"
               value={inputValues.email}
-              placeholder="Email"
+              placeholder={language.email}
             />
           </div>
           <div className="input-div-login">
-            <label htmlFor="Password">Password</label>
+            <label htmlFor="Password">{language.password}</label>
             <input
               value={inputValues.password}
               type="Password"
               id="Password"
               name="password"
               onChange={changeHandler}
-              placeholder="Password"
+              placeholder={language.password}
             />
           </div>
           <button type="submit" onClick={submitHandler} className="login">
-            Login
+            {language.btn}
           </button>
-          <Link to={"/sign-up"}>Not a member?</Link>
+          <Link to={"/sign-up"}>{language.not}</Link>
         </form>
       </div>
     </div>
