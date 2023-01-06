@@ -22,6 +22,8 @@ function App() {
   const id = queryParameters.get("id");
 
   console.log("type:", type, "name:", id);
+  //http://localhost:3000/?type=qr_code&id=tt
+  
   return (
     <div className="App">
       <ToastContainer />
