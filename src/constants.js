@@ -1,4 +1,4 @@
-export const SERVER_URL = "http://35.217.24.65:8081/http://35.217.24.65:80";
+export const SERVER_URL = "http://35.217.24.65:8081/http://35.217.24.65:3002";
 export const DESTINATION_ETHEREUM_ADDRESS =
   "0xd5bDc028aaEAb8D8fa1C5Bb577b6C4C3402559F6";
 export const TRACKING_ID = "UA-XXXXX-X";

@@ -16,21 +16,31 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   axios.defaults.baseURL = SERVER_URL;
+
+  const queryParameters = new URLSearchParams(window.location.search);
+  const type = queryParameters.get("type");
+  const id = queryParameters.get("id");
+
+  console.log("type:", type, "name:", id);
   return (
     <div className="App">
       <ToastContainer />
       <Header />
       <Chatbot />
-      <Routes>
-        <Route path="/" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/map" element={<Map3D />} />
-        <Route path="/:id" element={<ProductView />} />
-      </Routes>
+      {type === "qr_code" ? (
+        <div>QR Code ID: {id}</div>
+      ) : (
+        <Routes>
+          <Route path="/" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/map" element={<Map3D />} />
+          <Route path="/:id" element={<ProductView />} />
+        </Routes>
+      )}
     </div>
   );
 }
