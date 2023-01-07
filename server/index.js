@@ -20,7 +20,7 @@ if (fs.existsSync("cert.pem") && fs.existsSync("key.pem")) {
   const certificate = fs.readFileSync("./cert.pem", "utf8");
 }
 
-const port = 80;
+const port = 3002;
 const localEmail = "test@gmail.com";
 
 app.post("/", (req, res) => {
