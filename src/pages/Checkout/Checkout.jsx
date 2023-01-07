@@ -4,6 +4,8 @@ import { SERVER_URL } from "../../constants";
 import "./Checkout.css";
 import CryptoPayment from "./CryptoPayment";
 import PaypalPayment from "./PaypalPayment";
+import { toast } from "react-toastify";
+import CardCheckout from "./CardCheckout";
 
 const Checkout = ({ language }) => {
   const [inputValues, setInputValues] = useState({
@@ -13,7 +15,7 @@ const Checkout = ({ language }) => {
     method: "",
     email: "",
     gift: "No",
-    payment: "",
+    payment: "card",
     email: "",
     discount_code: "",
   });
@@ -22,13 +24,12 @@ const Checkout = ({ language }) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
-  const submitHandler = async (e) => {
-    e.preventDefault();
-  };
 
   const applyDiscount = async (e) => {
     e.preventDefault();
     if (!inputValues.discount_code || !inputValues.email) {
+      console.log("dada");
+      toast.error("Please enter both email and discount code");
       return;
     }
 
@@ -36,14 +37,17 @@ const Checkout = ({ language }) => {
       email: inputValues.email,
       dId: inputValues.discount_code,
     });
-    console.log(resp.data);
 
-    if (resp.data.status === 'ok' && resp.data.discount) {
-      alert('Discount applied successfully');
+    if (resp.data.status === "ok" && resp.data.discount) {
+      toast.success("Discount applied successfully");
       //update price
-    } else{ 
-      alert(resp.data.status);
+    } else {
+      toast.error(resp.data.status);
     }
+  };
+
+  const payFunc = async (id, error) => {
+    //send to check out
   };
 
   return (
@@ -144,14 +148,16 @@ const Checkout = ({ language }) => {
               <option value="Crypto">Crypto</option>
             </select>
           </div>
-          {inputValues.payment === "Paypal" && <PaypalPayment />}
-          {inputValues.payment === "Crypto" && <CryptoPayment amount={0.001} />}
+          {inputValues.payment === "Card" && <CardCheckout payFunc={payFunc} />}
+          {inputValues.payment === "Paypal" && (
+            <PaypalPayment payFunc={payFunc} />
+          )}
+          {inputValues.payment === "Crypto" && (
+            <CryptoPayment amount={0.001} payFunc={payFunc} />
+          )}
           <h3 className="total-amount">
             {language.total}: <strong>$40000</strong>
           </h3>
-          <button type="submit" onClick={submitHandler} className="login">
-            {language.btn}
-          </button>
         </form>
       </div>
     </div>

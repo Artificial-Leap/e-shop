@@ -4,6 +4,10 @@ import * as fs from "fs";
 import database from "./database.js";
 import emailer from "./emailer.js";
 import nfts from "./nfts.js";
+import Stripe from 'stripe'
+import cors from "cors";
+
+const stripe = new Stripe("apiKey");
 
 new database();
 new emailer();
@@ -13,6 +17,7 @@ const app = express();
 app.use(json({ limit: "50mb" }));
 app.use(express.static("files"));
 app.use("/static", express.static("public"));
+app.use(cors());
 
 //expres
 if (fs.existsSync("cert.pem") && fs.existsSync("key.pem")) {
@@ -69,7 +74,7 @@ app.get("/qr_info", async (req, res) => {
   res.send(info ? info.info : "QR Not Found!");
 });
 
-app.post("/test_discount" , async(req,res) => {
+app.post("/test_discount", async (req, res) => {
   const body = req.body;
   const email = body.email;
   const dId = body.dId;
@@ -79,7 +84,7 @@ app.post("/test_discount" , async(req,res) => {
     const d = await database.instance.getDiscount(dId);
     res.send({ status: "ok", discount: d.discount });
   } else {
-    res.send({ status: "invalid" });
+    res.send({ status: "Invalid discount code!" });
   }
 });
 
@@ -98,6 +103,7 @@ app.post("/checkout", async (req, res) => {
     vatid,
     invoiceAddress,
     discount_code,
+    id, //from stripe
   } = req.body;
 
   //update products with the current new availability
@@ -107,6 +113,27 @@ app.post("/checkout", async (req, res) => {
   //add the delivery to the database with a custom Delivery id (character/number 8 length)
   //send the response message (ok if the order is done, otherwise error message)
   //send to the orders' email the new order with all products and shipment address
+
+  if (paymentMethod === "card") {
+    const payment = await stripe.paymentIntents.create({
+      amount,
+      currency: "USD",
+      description: "Payment",
+      payment_method: id,
+      confirm: true,
+    });
+
+    try {
+      console.log("Payment", payment);
+    } catch (error) {
+      console.log("Error", error);
+      res.send({
+        message: "Payment Failed",
+        success: false,
+      });
+      return;
+    }
+  }
 
   let _content = "";
   for (let i = 0; i < content.length; i++) {
