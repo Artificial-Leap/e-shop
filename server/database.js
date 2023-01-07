@@ -32,6 +32,10 @@ export default class database {
       await this.db.run(
         "CREATE TABLE orders(id text, email text, content text, name text, address text, phoneNumber text, paymentMethod text, paymentInfo text, shippingMethod text, gift text, invoice text, vatid text, invoiceAddress text, status text, date text)"
       );
+      await this.db.run("CREATE TABLE qr_codes(id text, info text)");
+      await this.db.run(
+        "CREATE TABLE discount_codes(id text, discount int, target int, used_amount int, max_use_amount int)"
+      );
       await this.addProduct(
         "3dc7fiyzlfmkfqseqam",
         "bag",
@@ -99,6 +103,8 @@ export default class database {
         10,
         10
       );
+
+      await this.addQR("tt", "Test QR Info");
     }
   };
 
@@ -306,5 +312,58 @@ export default class database {
     const query = "SELECT * FROM orders WHERE id = ?";
     const result = await this.db.get(query, [id]);
     return result;
+  };
+
+  getQR = async (id) => {
+    const query = "SELECT * FROM qr_codes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    return result;
+  };
+
+  addQR = async (id, info) => {
+    const query = "INSERT INTO qr_codes (id, info) VALUES (?, ?)";
+    await this.db.run(query, [id, info]);
+  };
+  removeQR = async (id) => {
+    const query = "DELETE FROM qr_codes WHERE id = ?";
+    await this.db.run(query, [id]);
+  };
+
+  addDiscountCode = async (code, discount, target, max_use_amount) => {
+    const query =
+      "INSERT INTO discount_codes (id, discount, target, used_amount, max_use_amount) VALUES (?, ?, ?, ?)";
+    await this.db.run(query, [code, discount, target, 0, max_use_amount]);
+  };
+  updateDiscountCodeUsed = async (code) => {
+    const query = "SELECT * FROM discount_codes WHERE id = ?";
+    const result = await this.db.get(query, [code]);
+    const newAmount = result.used_amount + 1;
+    const query2 = "UPDATE discount_codes SET used_amount = ? WHERE id = ?";
+    await this.db.run(query2, [newAmount, code]);
+  };
+  getDiscount = async (id) => {
+    const query = "SELECT * FROM discount_codes WHERE id = ?";
+    const result = await this.db.get(query, [id]);
+    return result;
+  };
+  discountIsUsable = async (code, user) => {
+    const dsCode = await this.getDiscount(code);
+    if (!dsCode) {
+      return false;
+    }
+
+    if (dsCode.max_use_amount <= dsCode.used_amount) {
+      return false;
+    }
+
+    if (dsCode.target === "global") {
+      return true;
+    }
+
+    if (dsCode.target === user) {
+      return true;
+    }
+
+    return false;
   };
 }

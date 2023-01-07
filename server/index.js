@@ -1,6 +1,6 @@
 import express, { json } from "express";
-import https from 'https'
-import * as fs from 'fs'
+import https from "https";
+import * as fs from "fs";
 import database from "./database.js";
 import emailer from "./emailer.js";
 import nfts from "./nfts.js";
@@ -15,11 +15,10 @@ app.use(express.static("files"));
 app.use("/static", express.static("public"));
 
 //expres
-if (fs.existsSync('cert.pem') && fs.existsSync('key.pem')){
+if (fs.existsSync("cert.pem") && fs.existsSync("key.pem")) {
   const privKey = fs.readFileSync("./key.pem", "utf8");
   const certificate = fs.readFileSync("./cert.pem", "utf8");
 }
-
 
 const port = 80;
 const localEmail = "test@gmail.com";
@@ -64,6 +63,26 @@ app.get("/sizes_for", async (req, res) => {
   res.send(sizes);
 });
 
+app.get("/qr_info", async (req, res) => {
+  const id = req.query.id;
+  const info = await database.instance.getQR(id);
+  res.send(info ? info.info : "QR Not Found!");
+});
+
+app.post("/test_discount" , async(req,res) => {
+  const body = req.body;
+  const email = body.email;
+  const dId = body.dId;
+
+  const resp = await database.instance.discountIsUsable(dId, email);
+  if (resp) {
+    const d = await database.instance.getDiscount(dId);
+    res.send({ status: "ok", discount: d.discount });
+  } else {
+    res.send({ status: "invalid" });
+  }
+});
+
 app.post("/checkout", async (req, res) => {
   const {
     email,
@@ -78,6 +97,7 @@ app.post("/checkout", async (req, res) => {
     invoice,
     vatid,
     invoiceAddress,
+    discount_code,
   } = req.body;
 
   //update products with the current new availability

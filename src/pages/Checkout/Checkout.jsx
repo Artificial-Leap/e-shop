@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import { SERVER_URL } from "../../constants";
 import "./Checkout.css";
 import CryptoPayment from "./CryptoPayment";
 import PaypalPayment from "./PaypalPayment";
@@ -9,8 +11,11 @@ const Checkout = ({ language }) => {
     address: "",
     number: "",
     method: "",
+    email: "",
     gift: "No",
     payment: "",
+    email: "",
+    discount_code: "",
   });
   const changeHandler = (e) => {
     setInputValues((prev) => {
@@ -20,6 +25,27 @@ const Checkout = ({ language }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
   };
+
+  const applyDiscount = async (e) => {
+    e.preventDefault();
+    if (!inputValues.discount_code || !inputValues.email) {
+      return;
+    }
+
+    const resp = await axios.post(SERVER_URL + "/test_discount", {
+      email: inputValues.email,
+      dId: inputValues.discount_code,
+    });
+    console.log(resp.data);
+
+    if (resp.data.status === 'ok' && resp.data.discount) {
+      alert('Discount applied successfully');
+      //update price
+    } else{ 
+      alert(resp.data.status);
+    }
+  };
+
   return (
     <div className="container">
       <div className="login-div checkout-div">
@@ -34,6 +60,17 @@ const Checkout = ({ language }) => {
               name="name"
               placeholder={language.name}
               id="name"
+            />
+          </div>
+          <div className="input-div-login">
+            <label htmlFor="name">Email</label>
+            <input
+              onChange={changeHandler}
+              value={inputValues.email}
+              type="text"
+              name="email"
+              placeholder="E-mail"
+              id="email"
             />
           </div>
           <div className="input-div-login">
@@ -81,6 +118,18 @@ const Checkout = ({ language }) => {
               <option value="Yes">{language.gift[1]}</option>
               <option value="No">{language.gift[2]}</option>
             </select>
+          </div>
+          <div className="input-div-login">
+            <label htmlFor="number">Discount Code</label>
+            <input
+              onChange={changeHandler}
+              type="text"
+              value={inputValues.discount_code}
+              name="discount_code"
+              placeholder={"Discount Code"}
+              id="discount_code"
+            />
+            <button onClick={applyDiscount}>Apply Discount</button>
           </div>
           <div className="input-div-login">
             <label htmlFor="payment">{language.payment}</label>

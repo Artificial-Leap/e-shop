@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Chatbot from "./components/Chatbot/Chatbot";
 import { SERVER_URL } from "./constants";
 import Header from "./layout/Header/Header";
@@ -15,22 +15,41 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { translation } from "./translation";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [isQrInfo, setIsQrInfo] = useState(false);
+  const [qrInfo, setQrInfo] = useState("");
+  const location = useLocation();
   axios.defaults.baseURL = SERVER_URL;
 
-  const queryParameters = new URLSearchParams(window.location.search);
-  const type = queryParameters.get("type");
-  const id = queryParameters.get("id");
   //http://localhost:3000/?type=qr_code&id=tt
+  useEffect(() => {
+    const get_qr_info = async (id) => {
+      const resp = await axios.get(SERVER_URL + "/qr_info", { params: { id } });
+      console.log(resp.data);
+      setQrInfo(resp.data);
+    };
+
+    const queryParameters = new URLSearchParams(window.location.search);
+    const type = queryParameters.get("type");
+    setIsQrInfo(type === "qr_code");
+    console.log("infoooooooo");
+
+    if (type === "qr_code") {
+      const id = queryParameters.get("id");
+      get_qr_info(id);
+    }
+  }, [location]);
+
   const { language } = useSelector((state) => state.language);
   return (
     <div className="App">
       <ToastContainer />
       <Header language={translation[language].header} />
       <Chatbot />
-      {type === "qr_code" ? (
-        <div>QR Code ID: {id}</div>
+      {isQrInfo ? (
+        <div>QR Code ID: {qrInfo}</div>
       ) : (
         <Routes>
           <Route
